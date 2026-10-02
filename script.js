@@ -5,6 +5,7 @@ const registerSection = document.querySelector('.register');
 const phoneInput = form?.querySelector('input[name="phone"]');
 const eventDate = document.querySelector('#event-date');
 const eventTime = document.querySelector('#event-time');
+let phonePlugin = null;
 
 function setNextKyivEvent() {
   const monthNames = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
@@ -25,21 +26,50 @@ setNextKyivEvent();
 const year = document.querySelector('#year');
 if (year) year.textContent = String(new Date().getFullYear());
 
-function formatUaPhone(value) {
-  let digits = value.replace(/\D/g, '');
+async function detectVisitorCountry() {
+  const normalizeCountry = (countryCode) => {
+    const normalized = String(countryCode || '').trim().toLowerCase();
+    return /^[a-z]{2}$/.test(normalized) ? normalized : 'ua';
+  };
 
-  if (digits.startsWith('380')) digits = digits.slice(3);
-  if (digits.startsWith('0') && digits.length > 9) digits = digits.slice(1);
-
-  digits = digits.slice(0, 9);
-  if (digits.length <= 2) return digits;
-  if (digits.length <= 5) return `${digits.slice(0, 2)} ${digits.slice(2)}`;
-  return `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`;
+  try {
+    const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
+    if (!response.ok) throw new Error('Geo lookup failed');
+    const data = await response.json();
+    return normalizeCountry(data.country_code);
+  } catch {
+    try {
+      const response = await fetch('https://ipapi.co/country_code/');
+      if (!response.ok) throw new Error('Fallback geo lookup failed');
+      return normalizeCountry(await response.text());
+    } catch {
+      return 'ua';
+    }
+  }
 }
 
-phoneInput?.addEventListener('input', () => {
-  phoneInput.value = formatUaPhone(phoneInput.value);
-});
+if (phoneInput && window.intlTelInput) {
+  phonePlugin = window.intlTelInput(phoneInput, {
+    initialCountryLookup: detectVisitorCountry,
+    separateDialCode: true,
+    showFlags: true,
+    placeholderNumberPolicy: 'AGGRESSIVE',
+    formatAsYouType: true,
+    strictMode: true,
+    countryOrder: ['ua'],
+    countryNameLocale: 'uk',
+    uiTranslations: {
+      selectedCountryAriaLabel: 'Змінити країну, зараз обрано ${countryName} (${dialCode})',
+      noCountrySelected: 'Оберіть країну',
+      countryListAriaLabel: 'Список країн',
+      searchPlaceholder: 'Пошук країни',
+      clearSearchAriaLabel: 'Очистити пошук',
+      closeCountrySelectorAriaLabel: 'Закрити список країн',
+      searchEmptyState: 'Країн не знайдено',
+      searchSummaryAria: (count) => `Знайдено країн: ${count}`
+    }
+  });
+}
 
 if (fixedCta && registerSection) {
   const formVisibilityObserver = new IntersectionObserver(([entry]) => {
@@ -53,16 +83,18 @@ form?.addEventListener('submit', (event) => {
   event.preventDefault();
   const data = new FormData(form);
   const email = String(data.get('email') || '').trim();
-  const phone = String(data.get('phone') || '').trim();
+  const phone = phonePlugin?.getNumber() || String(data.get('phone') || '').trim();
   const phoneDigits = phone.replace(/\D/g, '');
+  const phoneIsValid = phonePlugin ? phonePlugin.isValidNumber() : phoneDigits.length >= 7;
 
-  if (!email || phoneDigits.length !== 9 || !email.includes('@')) {
+  if (!email || !phoneIsValid || !email.includes('@')) {
     status.textContent = 'Перевірте, будь ласка, email і номер телефону.';
     return;
   }
 
   status.textContent = 'Готово! Це локальна форма, тому дані не були відправлені.';
   form.reset();
+  phonePlugin?.setNumber('');
 });
 
 const reviews = [...document.querySelectorAll('.review')];

@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Безкоштовний майстер-клас про старт у професії AI‑Креатора">
   <title>Все ще не заробляєш на штучному інтелекті?</title>
-  <link rel="stylesheet" href="style.css?v=20261002-7">
-  <script src="script.js?v=20261002-6" defer></script>
+  <link rel="stylesheet" href="assets/vendor/intl-tel-input/css/intlTelInput.min.css">
+  <link rel="stylesheet" href="style.css?v=20261002-8">
+  <script src="assets/vendor/intl-tel-input/js/intlTelInputWithUtils.min.js" defer></script>
+  <script src="script.js?v=20261002-8" defer></script>
 </head>
 <body>
   <main class="page-shell" id="top">
@@ -139,10 +141,7 @@
           <label><span>Електронна адреса</span><input type="email" name="email" placeholder="Введіть вашу ел. адресу" autocomplete="email" required></label>
           <label>
             <span>Номер телефону</span>
-            <div class="phone-input">
-              <div class="phone-prefix" aria-hidden="true"><i class="phone-flag"></i><b>+380</b></div>
-              <input type="tel" name="phone" placeholder="50 123 4567" autocomplete="tel-national" inputmode="numeric" maxlength="11" aria-label="Номер телефону без коду країни" required>
-            </div>
+            <input class="phone-control" type="tel" name="phone" autocomplete="tel" inputmode="tel" aria-label="Номер телефону" required>
           </label>
           <button type="submit">Зареєструватися</button>
           <p class="form-status" role="status" aria-live="polite"></p>
