@@ -3,6 +3,27 @@ const status = document.querySelector('.form-status');
 const fixedCta = document.querySelector('.fixed-cta');
 const registerSection = document.querySelector('.register');
 const phoneInput = form?.querySelector('input[name="phone"]');
+const eventDate = document.querySelector('#event-date');
+const eventTime = document.querySelector('#event-time');
+
+function setNextKyivEvent() {
+  const monthNames = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
+  const kyivParts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Kyiv',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  }).formatToParts(new Date());
+  const dateParts = Object.fromEntries(kyivParts.map(({ type, value }) => [type, value]));
+  const tomorrow = new Date(Date.UTC(Number(dateParts.year), Number(dateParts.month) - 1, Number(dateParts.day) + 1));
+
+  if (eventDate) eventDate.textContent = `${tomorrow.getUTCDate()} ${monthNames[tomorrow.getUTCMonth()]}`;
+  if (eventTime) eventTime.textContent = '19:00';
+}
+
+setNextKyivEvent();
+const year = document.querySelector('#year');
+if (year) year.textContent = String(new Date().getFullYear());
 
 function formatUaPhone(value) {
   let digits = value.replace(/\D/g, '');

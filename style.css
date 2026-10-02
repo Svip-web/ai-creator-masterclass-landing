@@ -123,7 +123,7 @@ h2 { margin-bottom: 22px; font-size: 41px; line-height: .98; letter-spacing: -.0
 .outcome-list article > span { display: grid; width: 60px; height: 40px; place-items: center; border: 2px solid var(--acid); border-radius: 999px; color: var(--acid); font-size: 14px; font-weight: 500; line-height: 1; }
 .outcome-list h3 { margin-bottom: 11px; color: var(--acid); font-size: 27px; line-height: .98; }
 .outcome-list p { color: #f7f7f7; font-size: 15px; line-height: 1.04; }
-.bonus-card { position: relative; margin-top: 44px; padding: 30px 24px 22px; border-radius: 24px; background: #373737; }
+.bonus-card { position: relative; margin-top: 44px; padding: 30px 24px 22px; border: 1px solid rgba(249,220,228,.28); border-radius: 24px; background: linear-gradient(145deg, #704f79 0%, #4b3555 52%, #33253c 100%); box-shadow: 0 22px 50px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.08); }
 .bonus-card > img { position: absolute; top: -20px; right: 22px; width: 52px; }
 .bonus-card h3 { margin-bottom: -14px; color: var(--acid); font-size: 27px; }
 .bonus-item { display: grid; grid-template-columns: 116px 1fr; gap: 14px; align-items: center; min-height: 142px; padding: 12px 0; }
@@ -164,18 +164,32 @@ h2 { margin-bottom: 22px; font-size: 41px; line-height: .98; letter-spacing: -.0
 .phone-flag { display: block; width: 22px; height: 15px; border-radius: 2px; background: linear-gradient(to bottom, #0057b7 0 50%, #ffd700 50% 100%); box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 .phone-prefix b { font-size: 15px; font-weight: 500; }
 .phone-input input { min-width: 0; padding-left: 11px; border-bottom: 0; }
-.registration-form button { min-height: 72px; margin-top: 2px; border: 0; border-radius: 999px; color: #fff; background: #1a1a1a; font-size: 20px; font-weight: 800; text-transform: uppercase; cursor: pointer; }
-.registration-form button:hover { background: #323232; }
+.registration-form button { position: relative; min-height: 72px; margin-top: 2px; overflow: hidden; border: 0; border-radius: 999px; color: #fff; background: linear-gradient(135deg, #ff315f 0%, #e60046 52%, #bd003b 100%); box-shadow: 0 12px 28px rgba(230,0,70,.28); font-size: 20px; font-weight: 800; text-transform: uppercase; cursor: pointer; animation: form-button-pulse 1.8s ease-in-out infinite; }
+.registration-form button::after { position: absolute; top: -65%; left: -35%; width: 24%; height: 230%; content: ""; background: linear-gradient(90deg, transparent, rgba(255,255,255,.72), transparent); pointer-events: none; transform: rotate(18deg); animation: form-button-shine 1.9s ease-in-out infinite; }
+.registration-form button:hover { background: linear-gradient(135deg, #ff4c73 0%, #ef0050 52%, #c90040 100%); }
+
+@keyframes form-button-pulse {
+  0%, 100% { box-shadow: 0 12px 28px rgba(230,0,70,.25); transform: scale(1); }
+  50% { box-shadow: 0 16px 38px rgba(230,0,70,.44); transform: scale(1.018); }
+}
+
+@keyframes form-button-shine {
+  0%, 56% { left: -35%; opacity: 0; }
+  66% { opacity: 1; }
+  88%, 100% { left: 112%; opacity: 0; }
+}
 .form-note, .form-status { margin: 0; text-align: center; font-size: 12px !important; color: #757575; }
 .form-status { min-height: 17px; color: #475100; font-weight: 700; }
 
 .reviews .section-pad { padding-top: 64px; padding-bottom: 70px; }
 .reviews > .section-pad > p { color: #eee; }
 .review-stage { position: relative; margin: 38px 0 18px; }
-.review-track { position: relative; min-height: 540px; }
-.review { position: absolute; inset: 0; display: grid; margin: 0; place-items: center; opacity: 0; transform: translateX(18px); transition: opacity .25s, transform .25s; pointer-events: none; }
+.review-track { position: relative; min-height: 602px; }
+.review { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: 13px; margin: 0; opacity: 0; transform: translateX(18px); transition: opacity .25s, transform .25s; pointer-events: none; }
 .review.is-active { opacity: 1; transform: none; pointer-events: auto; }
 .review video { width: min(100%, 315px); height: 540px; border-radius: 18px; background: #080808; object-fit: contain; box-shadow: 0 20px 42px rgba(0,0,0,.28); }
+.review figcaption { display: flex; justify-content: space-between; gap: 14px; width: min(100%, 315px); color: #f7f7f7; font-size: 14px; }
+.review figcaption span { color: var(--acid); }
 .slider-btn { position: absolute; z-index: 3; top: 50%; display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid #777; border-radius: 50%; color: #fff; background: rgba(35,35,35,.86); cursor: pointer; }
 .slider-btn--prev { left: -18px; }
 .slider-btn--next { right: -18px; }
@@ -184,25 +198,36 @@ h2 { margin-bottom: 22px; font-size: 41px; line-height: .98; letter-spacing: -.0
 .dots span.is-active { background: var(--acid); }
 .cta--bottom > span { border-radius: 0; }
 
-.site-footer { padding-bottom: 145px; color: #ededed; background: #29292f; }
-.footer-inner { max-width: 1180px; margin-inline: auto; padding: 64px 42px 40px; }
-.footer-brand { display: flex; align-items: center; gap: 70px; }
-.footer-brand img { width: 160px; color: white; }
-.footer-brand p, .address, .copyright { margin-bottom: 0; font-size: 14px; line-height: 1.5; }
-.site-footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 28px; margin: 54px 0 38px; padding-top: 28px; border-top: 1px solid #45454c; }
-.site-footer nav a { color: #ededed; font-size: 13px; text-decoration: none; }
-.site-footer nav a:hover { text-decoration: underline; }
-.address { text-align: left; }
-.copyright { margin-top: 22px; color: #a3a3a8; }
+.telegram-reviews { position: relative; margin-top: 54px; padding: 28px 20px 22px; border-radius: 28px; color: var(--ink); background: var(--pink); }
+.telegram-reviews__heading span { display: inline-block; margin-bottom: 8px; padding: 5px 10px; border-radius: 999px; color: #fff; background: #229ed9; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+.telegram-reviews__heading h3 { margin-bottom: 22px; font-size: 28px; line-height: 1; letter-spacing: -.035em; }
+.telegram-reviews__grid { display: grid; gap: 12px; }
+.telegram-reviews__grid img { width: 100%; border-radius: 16px; box-shadow: 0 9px 24px rgba(77,29,49,.13); }
+.telegram-reviews__stat { display: flex; align-items: center; gap: 14px; width: fit-content; margin: 18px 0 0 auto; padding: 15px 18px; border: 2px solid var(--ink); border-radius: 18px; background: var(--acid); transform: rotate(-1.5deg); }
+.telegram-reviews__stat strong { font-size: 28px; line-height: 1; }
+.telegram-reviews__stat span { font-size: 12px; font-weight: 700; line-height: 1.1; }
+
+.site-footer { width: min(100%, var(--page)); margin-inline: auto; padding-bottom: 118px; color: #ededed; background: #101010; }
+.footer-inner { padding: 42px 38px 34px; border-top: 1px solid #333; }
+.footer-logo { display: inline-flex; flex-direction: column; text-decoration: none; }
+.footer-logo strong { font-size: 24px; letter-spacing: .08em; }
+.footer-logo span { margin-top: 2px; color: var(--acid); font-size: 11px; letter-spacing: .12em; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 34px 0 28px; padding-top: 26px; border-top: 1px solid #333; }
+.footer-links a { color: #d4d4d4; font-size: 13px; text-decoration: none; }
+.footer-links a:hover { color: var(--acid); }
+.footer-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
+.footer-bottom p { margin: 0; color: #9c9c9c; font-size: 12px; }
+.payment-methods { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }
+.payment-methods span { padding: 4px 6px; border: 1px solid #454545; border-radius: 4px; color: #d7d7d7; font-size: 9px; font-weight: 700; }
 
 @media (max-width: 560px) {
   body { background: var(--black); }
   .section-pad { padding-inline: 26px; }
   .hero { min-height: 900px; padding: 42px 26px 110px; }
   .hero h1 { margin-bottom: 50px; }
-  .hero__lead { width: 64%; font-size: 16px; }
-  .event-meta { margin-top: 50px; font-size: 15px; }
-  .hero__photo { right: -8px; bottom: 140px; width: 274px; }
+  .hero__lead { width: 52%; font-size: 15.5px; line-height: 1.16; }
+  .event-meta { margin-top: 40px; font-size: 15px; }
+  .hero__photo { right: -36px; bottom: 134px; width: 274px; }
   .cta--hero { right: 20px; bottom: 125px; left: 20px; }
   .fixed-cta { bottom: 12px; width: calc(100vw - 40px); padding: 20px 10px; font-size: 18px; }
   .cta--hero small { min-height: 116px; padding: 20px 16px 20px 108px; border-radius: 24px; font-size: 14px; }
@@ -212,9 +237,9 @@ h2 { margin-bottom: 22px; font-size: 41px; line-height: .98; letter-spacing: -.0
   h2 { font-size: 37px; }
   .audience-card h3 { font-size: 25px; }
   .speaker__photo-wrap { margin-inline: auto; }
-  .footer-inner { padding: 50px 26px 34px; }
-  .footer-brand { display: grid; gap: 28px; }
-  .site-footer nav { justify-content: flex-start; }
+  .footer-inner { padding: 40px 26px 30px; }
+  .footer-bottom { display: grid; }
+  .payment-methods { justify-content: flex-start; }
 }
 
 @media (prefers-reduced-motion: reduce) {

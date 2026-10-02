@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Безкоштовний майстер-клас про старт у професії AI‑Креатора">
   <title>Все ще не заробляєш на штучному інтелекті?</title>
-  <link rel="stylesheet" href="style.css?v=20261002-2">
-  <script src="script.js?v=20261002-2" defer></script>
+  <link rel="stylesheet" href="style.css?v=20261002-3">
+  <script src="script.js?v=20261002-3" defer></script>
 </head>
 <body>
-  <main class="page-shell">
+  <main class="page-shell" id="top">
     <section class="hero section-dark">
       <div class="hero__copy">
         <p class="eyebrow">Безкоштовний майстер-клас</p>
@@ -20,11 +20,11 @@
         <div class="event-meta" aria-label="Дата та час майстер-класу">
           <div class="event-chip">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/></svg>
-            <strong>[Дата]</strong>
+            <strong id="event-date">3 жовтня</strong>
           </div>
           <div class="event-chip">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-            <strong>[Час]</strong>
+            <strong id="event-time">19:00</strong>
           </div>
           <div class="event-chip event-chip--zone">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
@@ -50,25 +50,25 @@
 
         <article class="audience-card">
           <header><span class="number">01</span><h3>Працюєш в офісі,<br>але хочеш більшого</h3></header>
-          <img src="assets/audience-office-ai.png" alt="Офісна працівниця опановує AI‑інструменти">
+          <img src="assets/audience-office-35plus.png" alt="Офісна працівниця старше 35 років опановує AI‑інструменти">
           <div class="tags"><span>втомилася від рутини</span><span>шукаєш щось «своє»</span><span>хочеш підробіток або зміну професії</span><span>мрієш про свободу</span><span>цікавить штучний інтелект</span></div>
         </article>
 
         <article class="audience-card">
           <header><span class="number">02</span><h3>Тимчасово не працюєш<br>або в декреті</h3></header>
-          <img src="assets/audience-home-ai.png" alt="Молода мама працює з AI‑контентом удома">
+          <img src="assets/audience-home-35plus.png" alt="Жінка старше 35 років починає працювати з AI‑контентом удома">
           <div class="tags"><span>хочеш працювати з дому</span><span>мрієш заробляти онлайн</span><span>хочеш старт у діджитал</span><span>нова професія</span></div>
         </article>
 
         <article class="audience-card">
           <header><span class="number">03</span><h3>Вже створюєш контент,<br>але результату нема</h3></header>
-          <img src="assets/audience-creator-ai.png" alt="Контент-креаторка створює матеріали з AI">
+          <img src="assets/audience-creator-35plus.png" alt="Досвідчена контент-креаторка створює матеріали з AI">
           <div class="tags"><span>не вдається знайти клієнтів</span><span>не знаєш як використовувати AI у роботі</span><span>охоплення низькі</span><span>складно з контентом</span><span>хочеш підняти чек</span></div>
         </article>
 
         <article class="audience-card">
           <header><span class="number">04</span><h3>Підприємець або<br>самозайнята</h3></header>
-          <img src="assets/audience-business-ai.png" alt="Підприємиця планує AI‑контент для свого бренду">
+          <img src="assets/audience-business-35plus.png" alt="Підприємиця старше 50 років планує AI‑контент для свого бренду">
           <div class="tags"><span>просувати свій бренд через AI‑контент</span><span>більше продажів</span><span>не залежати від таргету</span><span>самостійно робити крутий AI‑контент</span><span>хочеш скоротити витрати на контент</span></div>
         </article>
 
@@ -158,18 +158,45 @@
         <div class="review-stage" aria-label="Відгуки учасників">
           <button class="slider-btn slider-btn--prev" type="button" aria-label="Попередній відгук">←</button>
           <div class="review-track">
-            <figure class="review is-active"><video src="assets/review-video-1.mp4" controls playsinline preload="metadata" aria-label="Відеовідгук 1"></video></figure>
-            <figure class="review"><video src="assets/review-video-2.mov" controls playsinline preload="metadata" aria-label="Відеовідгук 2"></video></figure>
-            <figure class="review"><video src="assets/review-video-3.mp4" controls playsinline preload="metadata" aria-label="Відеовідгук 3"></video></figure>
-            <figure class="review"><video src="assets/review-video-4.mp4" controls playsinline preload="metadata" aria-label="Відеовідгук 4"></video></figure>
-            <figure class="review"><video src="assets/review-video-5.mp4" controls playsinline preload="metadata" aria-label="Відеовідгук 5"></video></figure>
+            <figure class="review is-active"><video src="assets/review-video-1.mp4" poster="assets/review-poster-1.png" controls playsinline preload="metadata" aria-label="Відеовідгук учениці 1"></video><figcaption><strong>Відгук учениці</strong><span>Україна</span></figcaption></figure>
+            <figure class="review"><video src="assets/review-video-2.mov" poster="assets/review-poster-2.png" controls playsinline preload="metadata" aria-label="Відеовідгук учениці 2"></video><figcaption><strong>Відгук учениці</strong><span>Україна</span></figcaption></figure>
+            <figure class="review"><video src="assets/review-video-3.mp4" poster="assets/review-poster-3.png" controls playsinline preload="metadata" aria-label="Відеовідгук учениці 3"></video><figcaption><strong>Відгук учениці</strong><span>Україна</span></figcaption></figure>
+            <figure class="review"><video src="assets/review-video-4.mp4" poster="assets/review-poster-4.png" controls playsinline preload="metadata" aria-label="Відеовідгук учениці 4"></video><figcaption><strong>Відгук учениці</strong><span>Україна</span></figcaption></figure>
+            <figure class="review"><video src="assets/review-video-5.mp4" poster="assets/review-poster-5.png" controls playsinline preload="metadata" aria-label="Відеовідгук учениці 5"></video><figcaption><strong>Відгук учениці</strong><span>Україна</span></figcaption></figure>
           </div>
           <button class="slider-btn slider-btn--next" type="button" aria-label="Наступний відгук">→</button>
         </div>
         <div class="dots" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span><span></span></div>
+
+        <div class="telegram-reviews">
+          <div class="telegram-reviews__heading">
+            <span>Telegram</span>
+            <h3>Ще більше відгуків учениць</h3>
+          </div>
+          <div class="telegram-reviews__grid">
+            <img src="assets/review-1.webp" alt="Відгук учениці з Telegram українською мовою">
+            <img src="assets/review-2.webp" alt="Відгуки учениць з Telegram українською мовою">
+            <img src="assets/review-3.webp" alt="Розгорнутий відгук учениці з Telegram українською мовою">
+          </div>
+          <div class="telegram-reviews__stat"><strong>1 000+</strong><span>учениць уже навчалися<br>разом із командою Жені</span></div>
+        </div>
       </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-logo" href="#top" aria-label="На початок сторінки"><strong>AI CREATOR</strong><span>by ЖЕНЯ КОВАЛЕНКО</span></a>
+      <div class="footer-links">
+        <a href="https://www.kovalenko-ai.com/2/policy-aicreator/" target="_blank" rel="noopener">Політика конфіденційності</a>
+        <a href="mailto:info@kovalenko-ai.com">info@kovalenko-ai.com</a>
+      </div>
+      <div class="footer-bottom">
+        <p>Copyright © <span id="year">2026</span>. AI CREATOR.</p>
+        <p class="payment-methods" aria-label="Способи оплати"><span>VISA</span><span>Mastercard</span><span>Stripe</span></p>
+      </div>
+    </div>
+  </footer>
 
   <a class="fixed-cta" href="#form">Зареєструватися зараз</a>
 </body>
