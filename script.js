@@ -81,3 +81,29 @@ function showReview(index) {
 
 document.querySelector('.slider-btn--prev')?.addEventListener('click', () => showReview(activeReview - 1));
 document.querySelector('.slider-btn--next')?.addEventListener('click', () => showReview(activeReview + 1));
+
+const telegramSlides = [...document.querySelectorAll('.telegram-slide')];
+const telegramDots = [...document.querySelectorAll('.telegram-slider__dots button')];
+const telegramSlider = document.querySelector('.telegram-slider');
+let activeTelegramSlide = 0;
+let telegramTouchStart = 0;
+
+function showTelegramSlide(index) {
+  activeTelegramSlide = (index + telegramSlides.length) % telegramSlides.length;
+  telegramSlides.forEach((slide, i) => slide.classList.toggle('is-active', i === activeTelegramSlide));
+  telegramDots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeTelegramSlide));
+}
+
+document.querySelector('.telegram-slider__button--prev')?.addEventListener('click', () => showTelegramSlide(activeTelegramSlide - 1));
+document.querySelector('.telegram-slider__button--next')?.addEventListener('click', () => showTelegramSlide(activeTelegramSlide + 1));
+telegramDots.forEach((dot, index) => dot.addEventListener('click', () => showTelegramSlide(index)));
+
+telegramSlider?.addEventListener('touchstart', (event) => {
+  telegramTouchStart = event.changedTouches[0].clientX;
+}, { passive: true });
+
+telegramSlider?.addEventListener('touchend', (event) => {
+  const distance = event.changedTouches[0].clientX - telegramTouchStart;
+  if (Math.abs(distance) < 45) return;
+  showTelegramSlide(activeTelegramSlide + (distance < 0 ? 1 : -1));
+}, { passive: true });
