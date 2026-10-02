@@ -72,7 +72,7 @@ h2 { margin-bottom: 22px; font-size: 41px; line-height: .98; letter-spacing: -.0
 .cta { display: block; color: var(--ink); text-align: center; text-decoration: none; text-transform: uppercase; }
 .cta > span { display: block; padding: 24px 12px; background: var(--acid); font-size: 21px; font-weight: 800; letter-spacing: .015em; }
 .cta small { display: block; margin-inline: 9px; padding: 12px 18px 16px; border-radius: 0 0 22px 22px; background: var(--paper); font-size: 14px; font-weight: 400; line-height: 1.12; text-transform: none; }
-.cta--hero { position: absolute; z-index: 3; right: 30px; bottom: 87px; left: 30px; }
+.cta--hero { position: absolute; z-index: 3; right: 30px; bottom: 60px; left: 30px; }
 .cta--hero small { position: relative; z-index: 2; display: flex; width: calc(100% + 40px); min-height: 124px; margin: 0 -20px; padding: 24px 28px 24px 132px; align-items: center; border-radius: 27px; font-size: 17px; line-height: 1.22; text-align: left; box-shadow: 0 14px 38px rgba(0,0,0,.22); }
 .bonus-mockup { position: absolute; bottom: 12px; left: 20px; width: 100px; height: 158px; object-fit: contain; filter: drop-shadow(0 10px 12px rgba(0,0,0,.25)); }
 .bonus-copy { display: block; }
@@ -187,17 +187,17 @@ h2 { margin-bottom: 22px; font-size: 41px; line-height: .98; letter-spacing: -.0
 
 .reviews .section-pad { padding-top: 64px; padding-bottom: 70px; }
 .reviews > .section-pad > p { color: #eee; }
-.review-stage { position: relative; margin: 38px 0 18px; }
+.review-stage { position: relative; margin: 38px 0 0; }
 .review-track { position: relative; min-height: 602px; }
 .review { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: 13px; margin: 0; opacity: 0; transform: translateX(18px); transition: opacity .25s, transform .25s; pointer-events: none; }
 .review.is-active { opacity: 1; transform: none; pointer-events: auto; }
-.review video { width: min(100%, 315px); height: 540px; border-radius: 18px; background: #080808; object-fit: contain; box-shadow: 0 20px 42px rgba(0,0,0,.28); }
+.review video { width: min(100%, 315px); height: 540px; border-radius: 18px; background: #080808; object-fit: cover; object-position: center; box-shadow: 0 20px 42px rgba(0,0,0,.28); }
 .review figcaption { display: flex; justify-content: space-between; gap: 14px; width: min(100%, 315px); color: #f7f7f7; font-size: 14px; }
 .review figcaption span { color: var(--acid); }
-.slider-btn { position: absolute; z-index: 3; top: 50%; display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid #777; border-radius: 50%; color: #fff; background: rgba(35,35,35,.86); cursor: pointer; }
-.slider-btn--prev { left: -18px; }
-.slider-btn--next { right: -18px; }
-.dots { display: flex; justify-content: center; gap: 7px; margin-bottom: 34px; }
+.review-controls { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 12px 0 34px; }
+.slider-btn { display: grid; flex: 0 0 auto; width: 44px; height: 44px; place-items: center; border: 1px solid #777; border-radius: 50%; color: #fff; background: rgba(35,35,35,.86); font-size: 18px; cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+.slider-btn:hover { border-color: var(--acid); background: #2b2b2b; transform: translateY(-2px); }
+.dots { display: flex; justify-content: center; gap: 7px; margin: 0; }
 .dots span { width: 7px; height: 7px; border-radius: 50%; background: #747474; }
 .dots span.is-active { background: var(--acid); }
 .cta--bottom > span { border-radius: 0; }
@@ -210,10 +210,10 @@ h2 { margin-bottom: 22px; font-size: 41px; line-height: .98; letter-spacing: -.0
 .telegram-slide { display: none; min-height: 440px; margin: 0; place-items: center; }
 .telegram-slide.is-active { display: grid; animation: telegram-slide-in .28s ease both; }
 .telegram-slide img { width: 100%; max-height: 600px; border-radius: 16px; object-fit: contain; box-shadow: 0 9px 24px rgba(77,29,49,.13); }
-.telegram-slider__button { position: absolute; z-index: 2; top: 50%; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(255,255,255,.72); border-radius: 50%; color: #fff; background: rgba(23,23,23,.78); box-shadow: 0 7px 18px rgba(0,0,0,.2); font-size: 19px; cursor: pointer; transform: translateY(-50%); backdrop-filter: blur(6px); }
-.telegram-slider__button--prev { left: -12px; }
-.telegram-slider__button--next { right: -12px; }
-.telegram-slider__dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+.telegram-slider__controls { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 16px; }
+.telegram-slider__button { display: grid; flex: 0 0 auto; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(255,255,255,.72); border-radius: 50%; color: #fff; background: rgba(23,23,23,.78); box-shadow: 0 7px 18px rgba(0,0,0,.2); font-size: 19px; cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease; backdrop-filter: blur(6px); }
+.telegram-slider__button:hover { border-color: var(--ink); background: #2b2b2b; transform: translateY(-2px); }
+.telegram-slider__dots { display: flex; justify-content: center; gap: 8px; margin: 0; }
 .telegram-slider__dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: rgba(52,52,52,.28); cursor: pointer; transition: width .2s ease, border-radius .2s ease, background .2s ease; }
 .telegram-slider__dots button.is-active { width: 26px; border-radius: 999px; background: var(--ink); }
 .telegram-reviews__stat { display: flex; align-items: center; gap: 14px; width: fit-content; margin: 18px 0 0 auto; padding: 15px 18px; border: 2px solid var(--ink); border-radius: 18px; background: var(--acid); transform: rotate(-1.5deg); }
@@ -230,11 +230,10 @@ h2 { margin-bottom: 22px; font-size: 41px; line-height: .98; letter-spacing: -.0
 .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 34px 26px; }
 .footer-about { grid-column: 1 / -1; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,.12); }
 .footer-about p { max-width: 360px; margin: 22px 0 0; color: #b7bfca; font-size: 14px; line-height: 1.45; }
-.footer-logo { display: inline-flex; align-items: center; gap: 11px; color: #fff; text-decoration: none; }
-.footer-logo__mark { display: grid; width: 46px; height: 46px; place-items: center; border: 1px solid rgba(255,255,255,.75); border-radius: 50%; color: var(--acid); font-size: 15px; font-weight: 900; letter-spacing: -.04em; }
-.footer-logo__text { display: flex; flex-direction: column; }
-.footer-logo__text strong { font-size: 18px; line-height: 1; letter-spacing: .02em; }
-.footer-logo__text small { margin-top: 3px; color: #d9dde3; font-size: 11px; letter-spacing: .16em; }
+.footer-logo { display: inline-flex; align-items: center; gap: 7px; width: 160px; height: 54px; color: #fff; text-decoration: none; }
+.footer-logo__symbol, .footer-logo__wordmark { display: block; flex: 0 0 auto; overflow: hidden; background-image: url("assets/logo-source.webp"); background-repeat: no-repeat; background-size: 126.75px 116.48px; filter: brightness(0) invert(1); }
+.footer-logo__symbol { width: 55.03px; height: 50.17px; background-position: -35.87px -17.8px; }
+.footer-logo__wordmark { width: 97.1px; height: 27.51px; background-position: -11.6px -71.21px; }
 .footer-column h3 { margin-bottom: 13px; font-size: 15px; line-height: 1; }
 .footer-column a { color: #c3cad4; font-size: 13px; line-height: 1.4; text-decoration: none; }
 .footer-column a:hover { color: var(--acid); }
@@ -255,7 +254,7 @@ h2 { margin-bottom: 22px; font-size: 41px; line-height: .98; letter-spacing: -.0
   .hero__lead { width: 52%; font-size: 15.5px; line-height: 1.16; }
   .event-meta { margin-top: 40px; font-size: 15px; }
   .hero__photo { right: -36px; bottom: 134px; width: 274px; }
-  .cta--hero { right: 20px; bottom: 125px; left: 20px; }
+  .cta--hero { right: 20px; bottom: 60px; left: 20px; }
   .fixed-cta { bottom: 12px; width: calc(100vw - 40px); padding: 20px 10px; font-size: 18px; }
   .cta--hero small { min-height: 116px; padding: 20px 16px 20px 108px; border-radius: 24px; font-size: 14px; }
   .bonus-mockup { bottom: 10px; left: 12px; width: 84px; height: 136px; }
