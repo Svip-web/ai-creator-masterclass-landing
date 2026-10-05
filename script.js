@@ -100,7 +100,40 @@ form?.addEventListener('submit', (event) => {
 const reviews = [...document.querySelectorAll('.review')];
 const dots = [...document.querySelectorAll('.dots span')];
 const reviewVideos = [...document.querySelectorAll('.review video')];
+const reviewPlayButtons = [...document.querySelectorAll('.review-play')];
 let activeReview = 0;
+
+function syncReviewPlayer(video) {
+  const media = video.closest('.review-media');
+  const button = media?.querySelector('.review-play');
+  const isPlaying = !video.paused && !video.ended;
+  media?.classList.toggle('is-playing', isPlaying);
+  if (button) button.setAttribute('aria-label', isPlaying ? 'Призупинити відеовідгук' : 'Відтворити відеовідгук');
+}
+
+function toggleReviewVideo(video) {
+  if (video.paused || video.ended) {
+    reviewVideos.forEach((otherVideo) => {
+      if (otherVideo !== video) otherVideo.pause();
+    });
+    video.play().catch(() => syncReviewPlayer(video));
+  } else {
+    video.pause();
+  }
+}
+
+reviewVideos.forEach((video) => {
+  video.addEventListener('click', () => toggleReviewVideo(video));
+  ['play', 'pause', 'ended'].forEach((eventName) => video.addEventListener(eventName, () => syncReviewPlayer(video)));
+  syncReviewPlayer(video);
+});
+
+reviewPlayButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const video = button.closest('.review-media')?.querySelector('video');
+    if (video) toggleReviewVideo(video);
+  });
+});
 
 function showReview(index) {
   activeReview = (index + reviews.length) % reviews.length;
