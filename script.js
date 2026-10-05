@@ -2,10 +2,12 @@ const form = document.querySelector('.registration-form');
 const status = document.querySelector('.form-status');
 const fixedCta = document.querySelector('.fixed-cta');
 const registerSection = document.querySelector('.register');
-const phoneInput = form?.querySelector('input[name="phone"]');
+const phoneInput = form?.querySelector('.phone-control');
+const hiddenPhoneInput = form?.querySelector('input[name="phone"]');
 const eventDate = document.querySelector('#event-date');
 const eventTime = document.querySelector('#event-time');
 let phonePlugin = null;
+let formServicesPromise = null;
 
 function setNextKyivEvent() {
   const monthNames = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
@@ -48,7 +50,49 @@ async function detectVisitorCountry() {
   }
 }
 
-if (phoneInput && window.intlTelInput) {
+function loadStylesheetOnce(href, id) {
+  const existing = document.getElementById(id);
+  if (existing) return Promise.resolve(existing);
+
+  return new Promise((resolve, reject) => {
+    const link = document.createElement('link');
+    link.id = id;
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.addEventListener('load', () => resolve(link), { once: true });
+    link.addEventListener('error', reject, { once: true });
+    document.head.append(link);
+  });
+}
+
+function loadScriptOnce(src, id) {
+  const existing = document.getElementById(id);
+  if (existing?.dataset.loaded === '1') return Promise.resolve(existing);
+
+  if (existing) {
+    return new Promise((resolve, reject) => {
+      existing.addEventListener('load', () => resolve(existing), { once: true });
+      existing.addEventListener('error', reject, { once: true });
+    });
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.id = id;
+    script.src = src;
+    script.async = true;
+    script.addEventListener('load', () => {
+      script.dataset.loaded = '1';
+      resolve(script);
+    }, { once: true });
+    script.addEventListener('error', reject, { once: true });
+    document.head.append(script);
+  });
+}
+
+function initPhonePlugin() {
+  if (!phoneInput || phonePlugin || !window.intlTelInput) return;
+
   phonePlugin = window.intlTelInput(phoneInput, {
     initialCountryLookup: detectVisitorCountry,
     separateDialCode: true,
@@ -71,6 +115,45 @@ if (phoneInput && window.intlTelInput) {
   });
 }
 
+function loadFormServices() {
+  if (!form) return Promise.resolve();
+  if (formServicesPromise) return formServicesPromise;
+
+  formServicesPromise = Promise.all([
+    loadStylesheetOnce('assets/vendor/intl-tel-input/css/intlTelInput.min.css', 'intl-tel-input-css'),
+    loadScriptOnce('assets/vendor/intl-tel-input/js/intlTelInputWithUtils.min.js', 'intl-tel-input-js')
+  ])
+    .then(() => {
+      initPhonePlugin();
+      return loadScriptOnce('https://client.integraleap.com/js/sf.js', 'integraleap-sf');
+    })
+    .then(() => {
+      window.ilForms?.create?.();
+    })
+    .catch(() => {
+      formServicesPromise = null;
+      status.textContent = 'Не вдалося завантажити сервіс реєстрації. Оновіть сторінку й спробуйте ще раз.';
+    });
+
+  return formServicesPromise;
+}
+
+if (registerSection && 'IntersectionObserver' in window) {
+  const formServicesObserver = new IntersectionObserver(([entry], observer) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    loadFormServices();
+  }, { rootMargin: '700px 0px' });
+
+  formServicesObserver.observe(registerSection);
+}
+
+document.querySelectorAll('a[href="#form"]').forEach((link) => {
+  ['pointerenter', 'focus', 'click'].forEach((eventName) => {
+    link.addEventListener(eventName, loadFormServices, { once: true, passive: eventName !== 'click' });
+  });
+});
+
 if (fixedCta && registerSection) {
   const formVisibilityObserver = new IntersectionObserver(([entry]) => {
     fixedCta.classList.toggle('is-hidden', entry.isIntersecting);
@@ -80,22 +163,44 @@ if (fixedCta && registerSection) {
 }
 
 form?.addEventListener('submit', (event) => {
-  event.preventDefault();
   const data = new FormData(form);
   const email = String(data.get('email') || '').trim();
-  const phone = phonePlugin?.getNumber() || String(data.get('phone') || '').trim();
+  const phone = phonePlugin?.getNumber() || String(data.get('phone_intlTelInput') || '').trim();
   const phoneDigits = phone.replace(/\D/g, '');
   const phoneIsValid = phonePlugin ? phonePlugin.isValidNumber() : phoneDigits.length >= 7;
 
   if (!email || !phoneIsValid || !email.includes('@')) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
     status.textContent = 'Перевірте, будь ласка, email і номер телефону.';
     return;
   }
 
-  status.textContent = 'Готово! Це локальна форма, тому дані не були відправлені.';
-  form.reset();
-  phonePlugin?.setNumber('');
+  if (form.dataset.ilInit !== '1') {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    status.textContent = 'Сервіс реєстрації ще завантажується. Спробуйте ще раз за кілька секунд.';
+    return;
+  }
+
+  if (hiddenPhoneInput) hiddenPhoneInput.value = phone;
+  status.textContent = 'Надсилаємо заявку…';
 });
+
+window.IlPrepareForm = async (formData) => {
+  status.textContent = 'Надсилаємо заявку…';
+  return formData;
+};
+
+window.IlAfterForm = async (formData) => {
+  if (formData?.error) {
+    status.textContent = 'Не вдалося надіслати заявку. Спробуйте ще раз.';
+    return false;
+  }
+
+  status.textContent = 'Готово! Переходимо до Telegram…';
+  return formData;
+};
 
 const reviews = [...document.querySelectorAll('.review')];
 const dots = [...document.querySelectorAll('.dots span')];
