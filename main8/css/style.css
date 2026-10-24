@@ -843,8 +843,9 @@ section {
 }
 
 .learn-section__box-item {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: start;
     width: 15.5rem;
     position: relative;
 }
@@ -854,11 +855,13 @@ section {
 }
 
 .learn-section__box-item .img {
+    grid-area: 1 / 1;
     width: 15.5rem;
     border-radius: 2rem;
 }
 
 .learn-section__box-item-text {
+    grid-area: 2 / 1;
     font-weight: 400;
     font-size: 1.5rem;
     line-height: 1;
@@ -874,6 +877,9 @@ section {
 }
 
 .learn-section__box-item-label {
+    grid-area: 1 / 1;
+    align-self: end;
+    justify-self: end;
     width: 5.5rem;
     height: 2rem;
     display: flex;
@@ -884,13 +890,9 @@ section {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     transform: rotate(20deg);
-    position: absolute;
+    position: relative;
     right: -1.5rem;
-    bottom: 4.1rem;
-}
-
-.learn-section__box-item-label.label12 {
-    bottom: 6rem;
+    bottom: 0.4rem;
 }
 
 .learn-section__box-item-label-text {
