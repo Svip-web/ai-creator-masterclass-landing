@@ -696,33 +696,62 @@ section {
 
 .intro-section__footer-item {
     display: flex;
-    align-items: start;
+    align-items: center;
     justify-content: center;
     -moz-column-gap: 0.8rem;
     column-gap: 0.8rem;
     margin-top: 1rem;
+    min-height: 2.4rem;
 }
 
-.intro-section__footer-item .user {
-    width: 0.9rem;
-    margin-top: -0.1rem;
+.intro-section__updates-toggle {
+    flex: 0 0 2.4rem;
+    min-width: 24px;
+    min-height: 24px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #9a9a9c;
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+.intro-section__updates-toggle:focus-visible {
+    outline: 0.15rem solid #9a9a9c;
+    outline-offset: 0.3rem;
 }
 
 .intro-section__footer-item-text {
     font-family: "Montserrat";
     font-weight: 400;
     font-size: 1rem;
-    line-height: 1;
+    line-height: 1.2;
     letter-spacing: -0.03em;
     color: #9a9a9c;
+    min-width: 0;
+    text-align: center;
+    transition: opacity 180ms ease;
+}
+
+.intro-section__footer-item.is-changing .intro-section__footer-item-text {
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .intro-section__footer-item-text {
+        transition: none;
+    }
 }
 
 .intro-section__footer-item-circle {
+    flex-shrink: 0;
     width: 0.3rem;
     height: 0.3rem;
     background-color: #9a9a9c;
     border-radius: 100%;
-    margin-top: 0.2rem;
+    margin-top: 0;
 }
 
 .second-section {

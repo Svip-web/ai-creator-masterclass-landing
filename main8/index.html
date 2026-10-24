@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="css/slick.min.css">
     <link rel="stylesheet" href="css/slick-theme.min.css">
     <link rel="stylesheet" href="css/intlTelInput.css">
-    <link rel="stylesheet" href="css/style.css?v=20261024-labels">
+    <link rel="stylesheet" href="css/style.css?v=20261024-updates">
     <!-- Meta Pixel Code -->
     <script>
       !function(f,b,e,v,n,t,s)
@@ -149,13 +149,15 @@
             <span>забронировать место</span>
             <img class="arrow" src="images/arrow.svg" alt="">
           </button>
-          <div class="intro-section__footer-item">
-            <img class="user" src="images/user.svg" alt="">
-            <div class="intro-section__footer-item-text">
-              Марина заняла место
+          <div class="intro-section__footer-item" data-intro-updates role="group" aria-label="Информация о мастер-классе" aria-live="off">
+            <button class="intro-section__updates-toggle" type="button" data-updates-toggle aria-label="Приостановить смену сообщений" aria-pressed="false">
+              <span aria-hidden="true">Ⅱ</span>
+            </button>
+            <div class="intro-section__footer-item-text" data-updates-primary>
+              Онлайн мастер-класс
             </div>
             <div class="intro-section__footer-item-circle"></div>
-            <div class="intro-section__footer-item-text">12 минут назад</div>
+            <div class="intro-section__footer-item-text" data-updates-secondary>Практика с AI</div>
           </div>
         </div>
       </div>
@@ -955,6 +957,7 @@
     <script src="js/slick.min.js"></script>
     <script src="js/jquery.inputmask.min.js"></script>
     <script src="js/main.js?v=20261024"></script>
+    <script src="js/intro-updates.js?v=20261024"></script>
     <script>
       window.ilfConfig = {
         url: "https://mufiksoft.com/shopifyband/amo-panel/forms.php",
