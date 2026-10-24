@@ -569,6 +569,11 @@ section {
     color: #fff;
 }
 
+.intro-section__box-title-line {
+    font-size: 2.05rem;
+    white-space: nowrap;
+}
+
 .intro-section__box-title span {
     font-size: 2.05rem;
     border-radius: 100rem;
