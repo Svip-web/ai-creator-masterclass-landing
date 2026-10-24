@@ -85,12 +85,20 @@ $(document).ready(() => {
   const phoneInput = document.querySelector('input[type="tel"]');
   let phoneMaskInitialized = false;
 
+  // РФ и Беларусь исключены из списка стран (excludeCountries ниже).
+  // Гео обязан отдавать только страны из списка: setCountry("ru") на
+  // исключённой стране бросает "No country data for 'ru'" и убивает виджет.
+  const EXCLUDED_COUNTRIES = ["ru", "by"];
+
   function resolveCountryByIp(callback) {
+    const done = (country) =>
+      callback(EXCLUDED_COUNTRIES.indexOf(country) === -1 ? country : "ua");
+
     fetch("https://get.geojs.io/v1/ip/geo.json")
       .then((res) => res.json())
       .then((data) => {
         if (data && data.country_code) {
-          callback(data.country_code.toLowerCase());
+          done(data.country_code.toLowerCase());
           return;
         }
         throw new Error("geojs: empty country_code");
@@ -100,16 +108,17 @@ $(document).ready(() => {
           .then((res) => res.text())
           .then((code) => {
             const country = code.trim().toLowerCase();
-            callback(country.length === 2 ? country : "ua");
+            done(country.length === 2 ? country : "ua");
           })
           .catch(() => {
-            callback("ua");
+            done("ua");
           });
       });
   }
 
   const iti = window.intlTelInput(phoneInput, {
     initialCountry: "auto",
+    excludeCountries: EXCLUDED_COUNTRIES,
     useFullscreenPopup: false,
     geoIpLookup: resolveCountryByIp,
     separateDialCode: true,
