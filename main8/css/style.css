@@ -704,25 +704,6 @@ section {
     min-height: 2.4rem;
 }
 
-.intro-section__updates-toggle {
-    flex: 0 0 2.4rem;
-    min-width: 24px;
-    min-height: 24px;
-    border: 0;
-    padding: 0;
-    background: transparent;
-    color: #9a9a9c;
-    font: inherit;
-    font-size: 1rem;
-    line-height: 1.2;
-    cursor: pointer;
-}
-
-.intro-section__updates-toggle:focus-visible {
-    outline: 0.15rem solid #9a9a9c;
-    outline-offset: 0.3rem;
-}
-
 .intro-section__footer-item-text {
     font-family: "Montserrat";
     font-weight: 400;

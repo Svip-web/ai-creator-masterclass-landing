@@ -5,24 +5,23 @@
   if (!row || row.dataset.updatesInitialized) return;
   var primary = row.querySelector("[data-updates-primary]");
   var secondary = row.querySelector("[data-updates-secondary]");
-  var toggle = row.querySelector("[data-updates-toggle]");
-  if (!primary || !secondary || !toggle) return;
+  if (!primary || !secondary) return;
   row.dataset.updatesInitialized = "true";
 
   // Simulated display messages only; no CRM records or registration counts are created.
   var messages = [
-    ["Марина заняла место", "только что"],
-    ["Анна заняла место", "только что"],
-    ["Ольга заняла место", "только что"],
-    ["Андрей занял место", "только что"],
-    ["Ирина заняла место", "только что"],
-    ["Алина заняла место", "только что"],
-    ["Елена заняла место", "только что"],
-    ["Дмитрий занял место", "только что"],
-    ["Юлия заняла место", "только что"],
-    ["Виктория заняла место", "только что"],
-    ["Оксана заняла место", "только что"],
-    ["Наталья заняла место", "только что"]
+    "Марина заняла место",
+    "Анна заняла место",
+    "Ольга заняла место",
+    "Андрей занял место",
+    "Ирина заняла место",
+    "Алина заняла место",
+    "Елена заняла место",
+    "Дмитрий занял место",
+    "Юлия заняла место",
+    "Виктория заняла место",
+    "Оксана заняла место",
+    "Наталья заняла место"
   ];
   var changeInterval = 5000;
   var fadeDuration = 180;
@@ -33,19 +32,24 @@
   var index = 0;
   var timer = null;
   var fadeTimer = null;
+  var lastMinutes = 0;
+
+  function randomElapsedTime() {
+    var minutes = 1 + Math.floor(Math.random() * 59);
+    if (minutes === lastMinutes) minutes = minutes % 59 + 1;
+    lastMinutes = minutes;
+    var lastDigit = minutes % 10;
+    var lastTwoDigits = minutes % 100;
+    var unit = lastDigit === 1 && lastTwoDigits !== 11 ? "минуту"
+      : lastDigit >= 2 && lastDigit <= 4 && (lastTwoDigits < 12 || lastTwoDigits > 14)
+        ? "минуты" : "минут";
+    return minutes + " " + unit + " назад";
+  }
 
   function stop() {
     clearTimeout(timer);
     clearTimeout(fadeTimer);
     row.classList.remove("is-changing");
-  }
-
-  function updateToggle() {
-    toggle.querySelector("span").textContent = paused ? "▶" : "Ⅱ";
-    toggle.setAttribute("aria-pressed", String(paused));
-    toggle.setAttribute("aria-label", paused
-      ? "Продолжить смену сообщений"
-      : "Приостановить смену сообщений");
   }
 
   function schedule() {
@@ -61,17 +65,12 @@
     row.classList.add("is-changing");
     fadeTimer = setTimeout(function () {
       index = (index + 1) % messages.length;
-      primary.textContent = messages[index][0];
-      secondary.textContent = messages[index][1];
+      primary.textContent = messages[index];
+      secondary.textContent = randomElapsedTime();
       schedule();
     }, motion.matches ? 0 : fadeDuration);
   }
 
-  toggle.addEventListener("click", function () {
-    paused = !paused;
-    updateToggle();
-    schedule();
-  });
   row.addEventListener("mouseenter", function () {
     hovered = true;
     schedule();
@@ -84,11 +83,8 @@
   window.addEventListener("pagehide", stop);
   window.addEventListener("pageshow", schedule);
   motion.addEventListener("change", function () {
-    if (motion.matches) {
-      paused = true;
-      updateToggle();
-      schedule();
-    }
+    paused = motion.matches;
+    schedule();
   });
   if ("IntersectionObserver" in window) {
     var observer = new IntersectionObserver(function (entries) {
@@ -98,6 +94,6 @@
     observer.observe(row);
   }
 
-  updateToggle();
+  secondary.textContent = randomElapsedTime();
   schedule();
 })();
