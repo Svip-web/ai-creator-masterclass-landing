@@ -9,12 +9,23 @@
   if (!primary || !secondary || !toggle) return;
   row.dataset.updatesInitialized = "true";
 
+  // Simulated display messages only; no CRM records or registration counts are created.
   var messages = [
-    ["Онлайн мастер-класс", "Практика с AI"],
-    ["Бонус за регистрацию", "2 видео-урока"],
-    ["Начни с нуля", "Без дорогой техники"],
-    ["Создавай AI-контент", "Фото и видео на заказ"]
+    ["Марина заняла место", "только что"],
+    ["Анна заняла место", "только что"],
+    ["Ольга заняла место", "только что"],
+    ["Андрей занял место", "только что"],
+    ["Ирина заняла место", "только что"],
+    ["Алина заняла место", "только что"],
+    ["Елена заняла место", "только что"],
+    ["Дмитрий занял место", "только что"],
+    ["Юлия заняла место", "только что"],
+    ["Виктория заняла место", "только что"],
+    ["Оксана заняла место", "только что"],
+    ["Наталья заняла место", "только что"]
   ];
+  var changeInterval = 5000;
+  var fadeDuration = 180;
   var motion = window.matchMedia("(prefers-reduced-motion: reduce)");
   var paused = motion.matches;
   var hovered = false;
@@ -40,7 +51,8 @@
   function schedule() {
     stop();
     if (!paused && !hovered && visible && !document.hidden) {
-      timer = setTimeout(next, 8000);
+      // Include the fade in the five-second interval between message changes.
+      timer = setTimeout(next, changeInterval - (motion.matches ? 0 : fadeDuration));
     }
   }
 
@@ -52,7 +64,7 @@
       primary.textContent = messages[index][0];
       secondary.textContent = messages[index][1];
       schedule();
-    }, motion.matches ? 0 : 180);
+    }, motion.matches ? 0 : fadeDuration);
   }
 
   toggle.addEventListener("click", function () {
