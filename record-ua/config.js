@@ -16,7 +16,7 @@ window.RECORD_CONFIG = {
     preset: {
       title: 'Консультация  запись  АІ Creator UA',
       stage: '105820611',
-      tag: 'запись;консультация;бронь_20€;390€;590€;790€',
+      tag: 'запись;консультация;бронь_20€;390€/590€/790€',
       product: 'Ai-creator',
       type_lead: 'Теплый',
       req: 'etsy_no_pay_4'

@@ -9,8 +9,8 @@ vm.runInNewContext(await readFile(new URL('../dist/config.js', import.meta.url),
 const config = JSON.parse(JSON.stringify(context.window.RECORD_CONFIG.crm));
 const contact = { name: ' Тест ', email: ' test@example.com ', phone: '+380501234567' };
 
-test('CRM routes the recording consultation to Creator with the requested title, warmth and six tags', () => {
-  assert.deepEqual(config.preset, { title: 'Консультация  запись  АІ Creator UA', stage: '105820611', tag: 'запись;консультация;бронь_20€;390€;590€;790€', product: 'Ai-creator', type_lead: 'Теплый', req: 'etsy_no_pay_4' });
+test('CRM routes the Creator consultation with four tags and one combined price tag', () => {
+  assert.deepEqual(config.preset, { title: 'Консультация  запись  АІ Creator UA', stage: '105820611', tag: 'запись;консультация;бронь_20€;390€/590€/790€', product: 'Ai-creator', type_lead: 'Теплый', req: 'etsy_no_pay_4' });
   const payload = buildPayload({ contact, href: 'http://localhost:4188/?utm_source=meta&utm_campaign=ua&fbclid=click&stage=wrong&product=wrong&type_lead=wrong&req=reg-web&title=wrong&tag=wrong&name=wrong&system_url=wrong&__proto__=bad', cookieString: '_fbp=fb.1.1.test; _fbc=fb.1.1.click; exid=client%201', preset: config.preset });
   assert.equal(payload.utm_source, 'meta');
   assert.equal(payload.utm_campaign, 'ua');
@@ -19,7 +19,7 @@ test('CRM routes the recording consultation to Creator with the requested title,
   assert.equal(payload.type_lead, 'Теплый');
   assert.equal(payload.req, 'etsy_no_pay_4');
   assert.equal(payload.title, 'Консультация  запись  АІ Creator UA');
-  assert.deepEqual(payload.tag.split(';'), ['запись', 'консультация', 'бронь_20€', '390€', '590€', '790€']);
+  assert.deepEqual(payload.tag.split(';'), ['запись', 'консультация', 'бронь_20€', '390€/590€/790€']);
   assert.equal(payload.name, 'Тест');
   assert.equal(payload.email, 'test@example.com');
   assert.equal(payload.system_exid, 'client 1');
@@ -69,7 +69,7 @@ test('submit POSTs the Creator no-payment route with exact consultation metadata
     assert.equal(body.stage, '105820611');
     assert.equal(body.type_lead, 'Теплый');
     assert.equal(body.product, 'Ai-creator');
-    assert.equal(body.tag.split(';').length, 6);
+    assert.deepEqual(body.tag.split(';'), ['запись', 'консультация', 'бронь_20€', '390€/590€/790€']);
     for (const field of ['amount', 'full_price', 'type_lead_pay', 'upstage', 'stripe_title']) assert.equal(Object.hasOwn(body, field), false);
     return { ok: true, json: async () => ({ formHistoryId: 'mock-history' }) };
   });
