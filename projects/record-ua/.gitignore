@@ -1,0 +1,7 @@
+node_modules/
+dist/
+optimization/
+qa/
+*.log
+.env
+.env.*

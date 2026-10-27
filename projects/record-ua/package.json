@@ -1,0 +1,8 @@
+{
+  "name": "kovalenko-record-uk-local",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "node build.mjs", "start": "node server.mjs", "test": "node --test tests/*.test.mjs" },
+  "devDependencies": { "esbuild": "0.27.3" }
+}

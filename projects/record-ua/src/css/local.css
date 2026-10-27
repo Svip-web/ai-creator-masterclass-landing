@@ -1,0 +1,19 @@
+h1 em { white-space: nowrap; }
+.video-preview { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; overflow: hidden; background: #17131f; border: 0; border-radius: calc(var(--radius) - 8px); }
+.video-preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.video-preview::after { position: absolute; content: ''; inset: 55% 0 0; background: linear-gradient(transparent, #17131fbb); pointer-events: none; }
+.video-preview__play { position: absolute; z-index: 1; left: 50%; top: 50%; transform: translate(-50%, -50%); width: clamp(48px, 5vw, 72px); aspect-ratio: 1; background: #ff875e; border-radius: 50%; box-shadow: 0 8px 28px #0e041c44; transition: background .2s, scale .2s; }
+.video-preview__play::after { position: absolute; content: ''; top: 50%; left: 54%; transform: translate(-50%, -50%); border-left: 17px solid white; border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
+.video-preview:hover .video-preview__play { background: #ff7900; scale: 1.06; }
+.video-preview__caption { position: absolute; z-index: 1; bottom: 17px; left: 0; right: 0; color: white; font-size: clamp(12px, 1vw, 15px); font-weight: 700; text-align: center; }
+.video-card video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #17131f; border-radius: calc(var(--radius) - 8px); }
+.form-error { margin: 0; color: #a12525; font-size: 13px; line-height: 1.5; }
+.phone-hint { color: var(--muted); font-size: 11px; line-height: 1.45; }
+[hidden] { display: none !important; }
+.cta:disabled { cursor: wait; opacity: .75; animation: none; transform: none; }
+.modal__form input[aria-invalid="true"] { border-color: #bd3333; }
+.modal__form .iti__country-list { line-height: 1.4; }
+.modal__form .iti__flag-container { max-height: 58px; }
+button:focus-visible, .iti__selected-flag:focus-visible { outline: 3px solid var(--purple); outline-offset: 4px; }
+.noscript { padding: 15px; text-align: center; }
+@media (max-width: 560px) { .video-preview { border-radius: 14px; } .video-preview__caption { bottom: 10px; } }
