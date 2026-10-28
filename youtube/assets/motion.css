@@ -1,0 +1,101 @@
+/* Motion remains decorative: content and controls are visible without JavaScript. */
+.t-btn{position:relative;isolation:isolate;overflow:hidden}
+.t-btn>span,.t-btn>.arrow{position:relative;z-index:1}
+.t-btn:not(:disabled){animation:cta-soft-glow 2.6s ease-in-out infinite;animation-play-state:paused}
+.t-btn.is-motion-visible:not(:disabled){animation-play-state:running}
+.t-btn::before{content:'';position:absolute;z-index:0;top:-80%;bottom:-80%;left:-65%;width:50%;pointer-events:none;background:linear-gradient(105deg,transparent 24%,#ffffff08 38%,#ffffff45 50%,#ffffff08 62%,transparent 76%);opacity:0;transform:translateX(-140%) skewX(-18deg);animation:cta-sheen 3.8s ease-in-out infinite;animation-play-state:paused}
+.t-btn.is-motion-visible:not(:disabled)::before{animation-play-state:running}
+/* A seamless red gradient flows continuously, including without hover or JS. */
+.t-btn:not(:disabled)::after{content:'';position:absolute;z-index:-1;inset:0 auto 0 0;width:200%;pointer-events:none;background:linear-gradient(90deg,#a80035 0%,#d0002a 22%,#ed0019 50%,#d0002a 78%,#a80035 100%) repeat-x 0 50%/50% 100%;animation:cta-gradient-flow 3.2s linear infinite}
+.t-btn:not(:disabled)>.arrow{animation:cta-arrow-nudge 2.6s ease-in-out infinite;animation-play-state:paused}
+.t-btn.is-motion-visible:not(:disabled)>.arrow{animation-play-state:running}
+.t-btn:disabled{animation:none!important}
+.t-btn:disabled::before{display:none;animation:none!important}
+.t-btn:disabled::after{display:none;animation:none!important}
+
+@keyframes cta-gradient-flow{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-50%,0,0)}
+}
+
+@keyframes cta-soft-glow{
+  0%,100%{box-shadow:0 7px 20px #ed00192b,0 0 0 0 #ed001900}
+  50%{box-shadow:0 10px 28px #ed001947,0 0 0 6px #ed001915}
+}
+@keyframes cta-sheen{
+  0%,32%{opacity:0;transform:translateX(-140%) skewX(-18deg)}
+  38%{opacity:1}
+  70%{opacity:1;transform:translateX(370%) skewX(-18deg)}
+  71%,100%{opacity:0;transform:translateX(370%) skewX(-18deg)}
+}
+@keyframes cta-arrow-nudge{
+  0%,35%,100%{transform:translateX(0)}
+  55%{transform:translateX(3px)}
+  75%{transform:translateX(0)}
+}
+
+.hero-visual.is-inview .hero-person{animation:hero-idle-float 6.4s ease-in-out infinite;animation-play-state:paused}
+.hero-visual.is-inview.is-motion-visible .hero-person{animation-play-state:running}
+@keyframes hero-idle-float{
+  0%,100%{transform:translate3d(0,0,0)}
+  50%{transform:translate3d(0,-3px,0)}
+}
+
+.comparison-pair.is-inview .learn-section__box-item-label{transform-origin:80% 80%;animation:price-arrive .5s cubic-bezier(.16,1,.3,1) .16s both,price-pulse 2.8s ease-in-out .8s infinite;animation-play-state:paused}
+.comparison-pair.is-inview .learn-section__box-item-label.is-motion-visible{animation-play-state:running}
+@keyframes price-arrive{
+  from{opacity:.65;transform:translateY(5px) scale(.94)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes price-pulse{
+  0%,100%{scale:1;box-shadow:0 4px 12px #0249ff26,0 0 0 0 #0249ff00}
+  50%{scale:1.04;box-shadow:0 6px 16px #0249ff40,0 0 0 4px #0249ff1a}
+}
+
+/* Each benefit icon has its own rhythm; the existing observer pauses it. */
+.register-section__box-item .icon{transform-box:fill-box;transform-origin:center;animation:benefit-spark 4.8s ease-in-out infinite;animation-play-state:paused}
+.register-section__box-item .icon[data-icon="laptop"]{animation-name:benefit-laptop;animation-duration:5.4s}
+.register-section__box-item .icon[data-icon="sun"]{animation-name:benefit-sun;animation-duration:7s}
+.register-section__box-item .icon[data-icon="language"]{animation-name:benefit-language;animation-duration:5.2s}
+.register-section__box-item:nth-child(2n) .icon{animation-delay:.35s}
+.register-section__box-item:nth-child(3n) .icon{animation-delay:.7s}
+.register-section__box-item:nth-child(5n) .icon{animation-delay:1.05s}
+.register-section__box-item .icon.is-motion-visible{animation-play-state:running}
+@keyframes benefit-spark{
+  0%,16%,64%,100%{transform:scale(1) rotate(0deg)}
+  30%{transform:scale(1.16) rotate(14deg)}
+  45%{transform:scale(.96) rotate(-8deg)}
+  54%{transform:scale(1.06) rotate(4deg)}
+}
+@keyframes benefit-laptop{
+  0%,18%,64%,100%{transform:translateY(0) rotate(0deg)}
+  32%{transform:translateY(-3px) rotate(-5deg)}
+  45%{transform:translateY(-3px) rotate(4deg)}
+  55%{transform:translateY(-1px) rotate(-2deg)}
+}
+@keyframes benefit-sun{
+  0%,12%{transform:rotate(0deg) scale(1)}
+  42%{transform:rotate(90deg) scale(1.1)}
+  72%,100%{transform:rotate(180deg) scale(1)}
+}
+@keyframes benefit-language{
+  0%,16%,68%,100%{transform:translateY(0) rotate(0deg)}
+  30%{transform:translateY(-3px) rotate(-6deg)}
+  46%{transform:translateY(-1px) rotate(5deg)}
+  57%{transform:translateY(-2px) rotate(-2deg)}
+}
+
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  .register-section__box-item,.practice-section__box-inner-item,.author-section__box-item{transition:translate .22s ease,box-shadow .22s ease}
+  .register-section__box-item:hover,.practice-section__box-inner-item:hover,.author-section__box-item:hover{translate:0 -2px;box-shadow:0 9px 22px #17243b0c}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .register-section__box-item .icon{animation:none!important;transform:none!important}
+  .t-btn,.t-btn::before,.t-btn::after,.t-btn>.arrow,.hero-visual .hero-person,.comparison-pair .learn-section__box-item:nth-child(2) .img,.comparison-pair .learn-section__box-item-label{animation:none!important;transition:none!important}
+  .t-btn>.arrow{transform:none!important}
+  .t-btn::before,.t-btn::after{display:none}
+  .hero-visual .hero-person,.comparison-pair .learn-section__box-item:nth-child(2) .img,.comparison-pair .learn-section__box-item-label{transform:none!important;opacity:1!important}
+  .comparison-pair .learn-section__box-item-label{scale:none!important}
+  .comparison-pair>.learn-section__box-item,.register-section__box-item,.practice-section__box-inner-item,.author-section__box-item{translate:none!important;transition:none!important}
+}
