@@ -142,6 +142,13 @@ main>section:nth-of-type(even){background:var(--section-gray);border-radius:30px
 .last-section__box-item:last-child .icon{position:absolute;z-index:0;right:-14px;bottom:-20px;display:block;width:112px;height:112px;padding:0;background:none;color:#fff;opacity:.07;pointer-events:none}
 .last-section__box-item:last-child .last-section__box-item-text{font-size:16px;color:#fff}
 .last-section__box-item:last-child .last-section__box-item-text span{display:block;margin-top:10px;color:#fff;font-family:var(--display);font-size:clamp(22px,6.5vw,26px);font-weight:400;line-height:1.2;letter-spacing:-.4px;overflow-wrap:normal}
+.creator-avatars{position:relative;z-index:1;display:flex;align-items:center;margin-top:20px}
+.creator-avatar{position:relative;display:block;flex:0 0 64px;width:64px;height:64px;overflow:hidden;border:3px solid #fff;border-radius:50%;background:#fff;box-shadow:0 5px 14px #0025a52b}
+.creator-avatar+.creator-avatar{margin-left:-12px}
+.creator-avatar img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.creator-avatar:nth-child(3) img{object-position:50% 15%;transform:scale(1.5);transform-origin:50% 22%}
+.creator-avatar:nth-child(4) img{object-position:50% 15%;transform:scale(1.3);transform-origin:50% 22%}
+@media(max-width:359px){.creator-avatar{flex-basis:56px;width:56px;height:56px}}
 @media(min-width:390px){
  .last-section__box{grid-template-columns:repeat(2,minmax(0,1fr))}
  .last-section__box-item:not(:last-child){display:flex;flex-direction:column;gap:14px;padding:16px 14px}
