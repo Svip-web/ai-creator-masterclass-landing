@@ -225,8 +225,7 @@
     registrationStatus.textContent = '';
     try {
       const result = await registration.submit(payload, {
-        accepted:acceptedFingerprint === fingerprint ? acceptedRegistration : null,
-        onAccepted:data => window.YouTubeTracking?.lead(data)
+        accepted:acceptedFingerprint === fingerprint ? acceptedRegistration : null
       });
       acceptedRegistration = result.crm;
       acceptedFingerprint = fingerprint;
