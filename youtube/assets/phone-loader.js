@@ -4,7 +4,7 @@
   const coreUrl = new URL('vendor/intl-tel-input/js/intlTelInput.min.js', assetBase);
   const styleUrl = new URL('phone.min.css', assetBase);
   styleUrl.search = new URL(document.currentScript.src).search;
-  let preparing, corePromise, stylePromise, reloadCore = false, attempts = 0;
+  let preparing, corePromise, stylePromise, utilsPromise, reloadCore = false, utilsAttempts = 0;
 
   function loadAsset(type, url) {
     return new Promise((resolve, reject) => {
@@ -52,28 +52,46 @@
     return corePromise;
   }
 
+  function loadUtils() {
+    if (!utilsPromise) {
+      const utilsUrl = new URL('vendor/intl-tel-input/js/utils.js', assetBase);
+      if (++utilsAttempts > 1) utilsUrl.searchParams.set('retry', String(utilsAttempts));
+      utilsPromise = import(utilsUrl.href).then(module => {
+        if (!module?.default || typeof module.default !== 'object') {
+          throw new Error('Не удалось загрузить поле телефона.');
+        }
+        return module;
+      }).catch(error => {
+        utilsPromise = null;
+        throw error;
+      });
+    }
+    return utilsPromise;
+  }
+
   function prepare() {
     if (preparing) return preparing;
-    const attempt = ++attempts;
-    // Wait for both resources even on failure, so a retry cannot race an older
-    // core script. No picker exists until this promise has completely succeeded.
-    preparing = Promise.allSettled([loadStyles(), loadCore()]).then(async results => {
+    // Fetch all three assets on intent, without a core -> utils network waterfall.
+    // Settle all of them even on failure, so a retry cannot race an older core.
+    preparing = Promise.allSettled([loadStyles(), loadCore(), loadUtils()]).then(async results => {
       const failed = results.find(result => result.status === 'rejected');
       if (failed) throw failed.reason;
       const factory = results[1].value;
       if (!factory.utils) {
-        const utilsUrl = new URL('vendor/intl-tel-input/js/utils.js', assetBase);
-        if (attempt > 1) utilsUrl.searchParams.set('retry', String(attempt));
-        // The public attachUtils API starts now; loadUtils alone would wait for
-        // window.load, even when the visitor has already opened registration.
-        await factory.attachUtils(() => import(utilsUrl.href));
+        try {
+          // Attach the cached module through the public API without waiting for
+          // window.load or issuing another import. No picker exists before ready.
+          await factory.attachUtils(() => utilsPromise);
+          if (!factory.utils) throw new Error('Не удалось загрузить поле телефона.');
+        } catch (error) {
+          // A failed attachUtils retains a loading flag in v29.2.3. Reload its
+          // core on retry rather than changing private state on that factory.
+          reloadCore = true;
+          throw error;
+        }
       }
-      if (!factory.utils) throw new Error('Не удалось загрузить поле телефона.');
       return factory;
     }).catch(error => {
-      // A failed attachUtils retains a loading flag in v29.2.3. Reload its core
-      // on retry rather than changing private state on a failed factory.
-      reloadCore = true;
       preparing = null;
       throw error;
     });
