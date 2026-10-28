@@ -23,6 +23,7 @@
     try {
       const locale = new Intl.Locale(navigator.languages?.[0] || navigator.language).maximize();
       const region = locale.region?.toLowerCase();
+      if (region === 'ru' || region === 'by') return 'ua';
       if (window.intlTelInput.getAllCountries().some(country => country.iso2 === region)) return region;
     } catch { /* Older browsers fall back to Ukraine. */ }
     return 'ua';
@@ -32,6 +33,7 @@
   const phonePicker = window.intlTelInput(phoneInput, {
     initialCountry: detectPhoneCountry(),
     countryOrder: ['ua','pl','de','es','ro','cz','sk','lt','lv','ee','md'],
+    excludeCountries: ['ru','by'],
     countryNameLocale: 'ru',
     countrySelectorMode: 'FULLSCREEN',
     countrySearch: true,
@@ -109,9 +111,99 @@
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     }
   }, true);
-  modal.querySelector('form').addEventListener('submit', event => {
+  const registrationForm = modal.querySelector('form');
+  const registrationStatus = modal.querySelector('.form-status');
+  const registrationButton = registrationForm.querySelector('[type="submit"]');
+  const registrationLabel = registrationButton.querySelector('span');
+  const registrationLabelText = registrationLabel.textContent;
+  const registration = window.YouTubeRegistration;
+  let registrationPending = false;
+  let acceptedRegistration = null;
+  let acceptedFingerprint = '';
+  function storedValue(key) {
+    try { return localStorage.getItem(key) || ''; } catch { return ''; }
+  }
+  function rememberRegistration(data) {
+    if (data?.formHistoryId) {
+      try { localStorage.setItem('ilFormHistoryId', String(data.formHistoryId)); } catch { /* Storage may be unavailable. */ }
+    }
+  }
+  if (registration) registrationButton.disabled = false;
+  else registrationStatus.textContent = 'Не удалось загрузить форму. Обновите страницу.';
+  registrationForm.addEventListener('input', () => {
+    if (!registrationPending) registrationStatus.textContent = '';
+    if (!registrationPending && acceptedRegistration) {
+      acceptedRegistration = null;
+      acceptedFingerprint = '';
+      registrationLabel.textContent = registrationLabelText;
+      registrationStatus.textContent = '';
+    }
+  });
+  registrationForm.addEventListener('submit', async event => {
     event.preventDefault();
-    modal.querySelector('.form-status').textContent = 'Регистрация пока не открыта. Воронка будет подключена позже.';
+    if (registrationPending || !registration) return;
+    const nameInput = registrationForm.querySelector('[name="name"]');
+    const name = nameInput.value.trim();
+    syncPhoneNumber();
+    const phone = fullPhoneInput.value;
+    if (!name) {
+      registrationStatus.textContent = 'Введите имя.';
+      nameInput.focus();
+      return;
+    }
+    if (!phonePicker.isValidNumber() || !phone) {
+      registrationStatus.textContent = 'Введите корректный номер телефона.';
+      phoneInput.focus();
+      return;
+    }
+    if (registration.isBlockedPhone(phone, phonePicker.getSelectedCountryData().iso2)) {
+      registrationStatus.textContent = 'Регистрация с этим номером недоступна.';
+      phoneInput.focus();
+      return;
+    }
+    const fingerprint = `${name}\n${phone}`;
+    if (acceptedFingerprint !== fingerprint) {
+      acceptedRegistration = null;
+      acceptedFingerprint = '';
+    }
+    let payload;
+    try {
+      payload = registration.buildPayload({name, rawPhone:phoneInput.value, phone, search:location.search, url:location.href, cookies:document.cookie, exid:storedValue('exid')});
+    } catch (error) {
+      registrationStatus.textContent = error.message || 'Проверьте имя и номер телефона.';
+      return;
+    }
+    registrationPending = true;
+    const controlStates = [...registrationForm.querySelectorAll('input, button')]
+      .filter(control => control !== registrationButton)
+      .map(control => ({control, disabled:control.disabled}));
+    controlStates.forEach(({control}) => { control.disabled = true; });
+    registrationButton.disabled = true;
+    registrationButton.setAttribute('aria-busy', 'true');
+    registrationLabel.textContent = 'Отправляем…';
+    registrationStatus.textContent = '';
+    try {
+      const result = await registration.submit(payload, {accepted:acceptedFingerprint === fingerprint ? acceptedRegistration : null});
+      acceptedRegistration = result.crm;
+      acceptedFingerprint = fingerprint;
+      rememberRegistration(result.crm);
+      registrationStatus.textContent = 'Регистрация прошла успешно. Открываем Telegram…';
+      registrationLabel.textContent = 'Открываем Telegram…';
+      location.assign(result.redirectUrl);
+    } catch (error) {
+      if (error.accepted) {
+        acceptedRegistration = error.accepted;
+        acceptedFingerprint = fingerprint;
+        rememberRegistration(error.accepted);
+      }
+      registrationLabel.textContent = acceptedRegistration ? 'Повторить переход' : registrationLabelText;
+      registrationStatus.textContent = error.message || 'Не удалось отправить заявку. Попробуйте ещё раз.';
+    } finally {
+      registrationPending = false;
+      controlStates.forEach(({control, disabled}) => { control.disabled = disabled; });
+      registrationButton.disabled = false;
+      registrationButton.removeAttribute('aria-busy');
+    }
   });
 
   const gallery = document.querySelector('.cases-section__box');

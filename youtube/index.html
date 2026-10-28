@@ -13,8 +13,8 @@
 <link rel="icon" href="./images/favicon-32.png" type="image/png">
 <link rel="preload" href="./assets/fonts/Furore.otf" as="font" type="font/otf" crossorigin>
 <link rel="stylesheet" href="./assets/vendor/intl-tel-input/css/intlTelInput.min.css">
-<link rel="stylesheet" href="./assets/site.css?v=hero-photo-under-cta-9"><link rel="stylesheet" href="./assets/sections.css?v=gift-3d-10"><link rel="stylesheet" href="./assets/display.css?v=hero-width-9"><link rel="stylesheet" href="./assets/motion.css?v=cta-brightness-6"><link rel="stylesheet" href="./assets/phone.css">
-<script src="./assets/vendor/intl-tel-input/js/intlTelInputWithUtils.min.js" defer></script><script src="./assets/site.js?v=result-timeline-5" defer></script>
+<link rel="stylesheet" href="./assets/site.css?v=portrait-no-side-crop-11"><link rel="stylesheet" href="./assets/sections.css?v=gift-3d-10"><link rel="stylesheet" href="./assets/display.css?v=hero-width-9"><link rel="stylesheet" href="./assets/motion.css?v=cta-brightness-6"><link rel="stylesheet" href="./assets/phone.css">
+<script src="./assets/vendor/intl-tel-input/js/intlTelInputWithUtils.min.js" defer></script><script src="./assets/registration.js?v=main8-form-12" defer></script><script src="./assets/site.js?v=main8-form-12" defer></script>
 </head><body>
 <a class="skip-link" href="#content">К содержанию</a>
 <main id="content">    <section class="intro-section" id="top">
@@ -615,7 +615,7 @@
     </section>
     <div class="overlay" hidden>
       <div class="overlay__inner">
-        <div class="modal modal__content" data-modal="popup" role="dialog" aria-modal="true" aria-labelledby="registration-title" aria-describedby="funnel-note" tabindex="-1">
+        <div class="modal modal__content" data-modal="popup" role="dialog" aria-modal="true" aria-labelledby="registration-title" aria-describedby="registration-status" tabindex="-1">
           <div class="modal__inner"><button class="modal-close" type="button" aria-label="Закрыть окно">×</button>
             <img class="modal-bg" src="./images/modal-bg.png" alt="" loading="lazy">
             <div class="modal__inner-titles">
@@ -632,7 +632,7 @@
                 о том, как <span>делать AI-контент</span>
               </div>
             </div>
-            <form class="modal__inner-form form" aria-describedby="funnel-note"><p class="funnel-note" id="funnel-note">Это предварительный просмотр. Регистрация откроется после подключения воронки.</p>
+            <form class="modal__inner-form form" aria-describedby="registration-status">
               <div class="modal__inner-form-title">
                 Введите свои контактные данные
               </div>
@@ -640,12 +640,12 @@
                 <input class="modal__inner-form-content-inp form__inp" type="text" name="name" aria-label="Имя" autocomplete="given-name" placeholder="Имя:" required="">
                 <input class="modal__inner-form-content-inp form__inp" type="tel" inputmode="tel" aria-label="Телефон" name="phone_intltelinput" placeholder="Телефон:" required="" id="phone" autocomplete="tel-national">
                 <input type="hidden" name="phone" value="">
-                <button type="submit" disabled aria-describedby="funnel-note" class="modal__inner-form-content-btn form__btn t-btn">
+                <button type="submit" disabled aria-describedby="registration-status" class="modal__inner-form-content-btn form__btn t-btn">
                   <span>забронировать место</span>
                   <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
                 </button>
               </div>
-            <p class="form-status" role="status"></p></form>
+            <p class="form-status" id="registration-status" role="status" aria-live="polite"></p><noscript><p class="form-status">Для регистрации включите JavaScript.</p></noscript></form>
           </div>
         </div>
       </div>
