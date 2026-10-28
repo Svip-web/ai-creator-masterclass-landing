@@ -7,6 +7,9 @@
   const phoneInput = modal.querySelector('input[type="tel"]');
   const fullPhoneInput = modal.querySelector('input[name="phone"]');
   let countrySelectorOpen = false;
+  let restoringOpenerFocus = false;
+  let phonePicker = null, phonePreparation = null, phoneReady = false;
+  phoneInput.disabled = true;
 
   function detectPhoneCountry() {
     const countriesByTimezone = {
@@ -29,8 +32,8 @@
     return 'ua';
   }
 
-  // Same local, bundled phone formatter as Luna; no geo-IP or remote requests.
-  const phonePicker = window.intlTelInput(phoneInput, {
+  // The matching local Luna formatter is prepared only after CTA intent/open.
+  function phoneOptions() { return {
     initialCountry: detectPhoneCountry(),
     countryOrder: ['ua','pl','de','es','ro','cz','sk','lt','lv','ee','md'],
     excludeCountries: ['ru','by'],
@@ -52,29 +55,66 @@
       searchEmptyState: 'Страна не найдена',
       searchSummaryAria: count => `Найдено стран: ${count}`
     }
-  });
+  }; }
   function syncPhoneNumber() {
-    fullPhoneInput.value = phonePicker.isValidNumber() ? phonePicker.getNumber() : '';
+    fullPhoneInput.value = phoneReady && phonePicker.isValidNumber() ? phonePicker.getNumber() : '';
+  }
+  function preparePhone() {
+    if (!phoneReady && !overlay.hidden && registration) registrationStatus.textContent = 'Загружаем поле телефона…';
+    if (phonePreparation) return phonePreparation;
+    const request = window.YouTubePhoneLoader
+      ? window.YouTubePhoneLoader.prepare()
+      : Promise.reject(new Error('Не удалось загрузить поле телефона.'));
+    phonePreparation = request.then(factory => {
+      phonePicker = factory(phoneInput, phoneOptions());
+      phoneReady = true;
+      if (!registrationPending) {
+        phonePicker.setDisabled(false);
+        registrationButton.disabled = !registration;
+      }
+      syncPhoneNumber();
+      motionObserver?.observe(registrationButton);
+      if (registrationStatus.textContent === 'Загружаем поле телефона…') registrationStatus.textContent = '';
+      return phonePicker;
+    }).catch(() => {
+      phonePreparation = null;
+      phoneReady = false;
+      fullPhoneInput.value = '';
+      phoneInput.disabled = true;
+      registrationButton.disabled = true;
+      if (!overlay.hidden) {
+        registrationStatus.textContent = 'Не удалось загрузить поле телефона. Закройте и откройте форму, чтобы повторить.';
+      }
+      return null;
+    });
+    return phonePreparation;
   }
   ['input','countrychange','blur'].forEach(name => phoneInput.addEventListener(name, syncPhoneNumber));
-  phonePicker.promise.then(syncPhoneNumber);
   phoneInput.addEventListener('open:countryselector', () => { countrySelectorOpen = true; });
   phoneInput.addEventListener('close:countryselector', () => { countrySelectorOpen = false; });
 
   function closeModal() {
-    phonePicker.closeCountrySelector();
+    phonePicker?.closeCountrySelector();
     overlay.hidden = true;
     document.body.classList.remove('modal-open');
+    restoringOpenerFocus = true;
     opener?.focus();
+    restoringOpenerFocus = false;
     syncMotionVisibility();
+    updateSticky();
   }
   document.querySelectorAll('.modal__open').forEach(button => {
+    ['pointerdown','pointerenter','focus'].forEach(event => button.addEventListener(event, () => {
+      if (!restoringOpenerFocus) preparePhone();
+    }));
     button.addEventListener('click', () => {
       opener = button;
       overlay.hidden = false;
       document.body.classList.add('modal-open');
       closeButton.focus();
       syncMotionVisibility();
+      updateSticky();
+      preparePhone();
     });
   });
   closeButton.addEventListener('click', closeModal);
@@ -128,10 +168,10 @@
       try { localStorage.setItem('ilFormHistoryId', String(data.formHistoryId)); } catch { /* Storage may be unavailable. */ }
     }
   }
-  if (registration) registrationButton.disabled = false;
-  else registrationStatus.textContent = 'Не удалось загрузить форму. Обновите страницу.';
+  registrationButton.disabled = !registration || !phoneReady;
+  if (!registration) registrationStatus.textContent = 'Не удалось загрузить форму. Обновите страницу.';
   registrationForm.addEventListener('input', () => {
-    if (!registrationPending) registrationStatus.textContent = '';
+    if (!registrationPending && phoneReady) registrationStatus.textContent = '';
     if (!registrationPending && acceptedRegistration) {
       acceptedRegistration = null;
       acceptedFingerprint = '';
@@ -142,6 +182,7 @@
   registrationForm.addEventListener('submit', async event => {
     event.preventDefault();
     if (registrationPending || !registration) return;
+    if (!phoneReady) { preparePhone(); return; }
     const nameInput = registrationForm.querySelector('[name="name"]');
     const name = nameInput.value.trim();
     syncPhoneNumber();
@@ -204,7 +245,7 @@
     } finally {
       registrationPending = false;
       controlStates.forEach(({control, disabled}) => { control.disabled = disabled; });
-      registrationButton.disabled = false;
+      registrationButton.disabled = !registration || !phoneReady;
       registrationButton.removeAttribute('aria-busy');
     }
   });
@@ -214,34 +255,78 @@
   const count = document.querySelector('.gallery-count');
   const previous = document.querySelector('.gallery-prev');
   const next = document.querySelector('.gallery-next');
-  let active = 0;
+  let active = 0, galleryFrame = 0, galleryMeasureNeeded = false;
+  let slideOffsets = [], galleryWidth = 0, galleryExtent = 0, galleryStep = 0;
+  function measureGallery() {
+    const left = gallery.offsetLeft;
+    slideOffsets = slides.map(slide => slide.offsetLeft - left);
+    galleryWidth = gallery.clientWidth;
+    galleryExtent = gallery.scrollWidth;
+    galleryStep = slideOffsets.length > 1 ? slideOffsets[1] - slideOffsets[0] : galleryWidth;
+  }
   function updateGallery() {
     const offset = gallery.scrollLeft;
-    active = slides.reduce((best, slide, index) => Math.abs(slide.offsetLeft - gallery.offsetLeft - offset) < Math.abs(slides[best].offsetLeft - gallery.offsetLeft - offset) ? index : best, 0);
-    count.textContent = `${String(active + 1).padStart(2, '0')} / 07`;
-    previous.disabled = gallery.scrollLeft < 5;
-    next.disabled = gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 5;
+    active = slideOffsets.reduce((best, left, index) => Math.abs(left - offset) < Math.abs(slideOffsets[best] - offset) ? index : best, 0);
+    const label = `${String(active + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+    if (count.textContent !== label) count.textContent = label;
+    previous.disabled = offset < 5;
+    next.disabled = offset + galleryWidth >= galleryExtent - 5;
+  }
+  function scheduleGallery(measure = false) {
+    galleryMeasureNeeded = galleryMeasureNeeded || measure;
+    if (galleryFrame) return;
+    galleryFrame = requestAnimationFrame(() => {
+      galleryFrame = 0;
+      if (galleryMeasureNeeded) {
+        galleryMeasureNeeded = false;
+        measureGallery();
+      }
+      updateGallery();
+    });
   }
   function slideBy(direction) {
-    const width = slides[0].getBoundingClientRect().width + parseFloat(getComputedStyle(gallery).gap || '0');
-    gallery.scrollBy({left:direction * width, behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+    gallery.scrollBy({left:direction * galleryStep, behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
   }
   previous.addEventListener('click', () => slideBy(-1));
   next.addEventListener('click', () => slideBy(1));
-  gallery.addEventListener('scroll', updateGallery, {passive:true});
-  addEventListener('resize', updateGallery);
+  gallery.addEventListener('scroll', () => scheduleGallery(), {passive:true});
+  addEventListener('resize', () => scheduleGallery(true));
+  if ('ResizeObserver' in window) new ResizeObserver(() => scheduleGallery(true)).observe(gallery);
+  measureGallery();
   updateGallery();
 
   const sticky = document.querySelector('.fixed-section');
   const hero = document.querySelector('.intro-section');
   const footer = document.querySelector('.footer');
+  let pastHero = hero.getBoundingClientRect().bottom < 0;
+  let atFooter = footer.getBoundingClientRect().top < innerHeight;
   function updateSticky() {
-    const pastHero = hero.getBoundingClientRect().bottom < 0;
-    const atFooter = footer.getBoundingClientRect().top < innerHeight;
     sticky.classList.toggle('is-visible', pastHero && !atFooter && overlay.hidden);
   }
-  addEventListener('scroll', updateSticky, {passive:true});
-  addEventListener('resize', updateSticky);
+  if ('IntersectionObserver' in window) {
+    const stickyObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.target === hero) pastHero = !entry.isIntersecting && entry.boundingClientRect.bottom <= 0;
+        if (entry.target === footer) atFooter = entry.boundingClientRect.top < (entry.rootBounds?.bottom ?? innerHeight);
+      });
+      updateSticky();
+    });
+    stickyObserver.observe(hero);
+    stickyObserver.observe(footer);
+  } else {
+    let stickyFrame = 0;
+    const scheduleSticky = () => {
+      if (stickyFrame) return;
+      stickyFrame = requestAnimationFrame(() => {
+        stickyFrame = 0;
+        pastHero = hero.getBoundingClientRect().bottom < 0;
+        atFooter = footer.getBoundingClientRect().top < innerHeight;
+        updateSticky();
+      });
+    };
+    addEventListener('scroll', scheduleSticky, {passive:true});
+    addEventListener('resize', scheduleSticky);
+  }
   updateSticky();
 
   const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
@@ -287,6 +372,10 @@
 
   function startMotion() {
     stopMotion();
+    document.querySelectorAll('.intro-section__header, .intro-section__box-title, .intro-section__box-subtitle, .hero-visual, .intro-section__footer').forEach(element => {
+      seen.add(element);
+      element.classList.add('is-inview');
+    });
     if (motionPreference.matches || !('IntersectionObserver' in window) || typeof Element.prototype.animate !== 'function') return;
 
     if (resultTimeline) {
@@ -300,8 +389,6 @@
     }
 
     const selectors = [
-      '.intro-section__header', '.intro-section__box-title', '.intro-section__box-subtitle',
-      '.hero-visual', '.intro-section__footer',
       '.second-section__box', '.learn-section__title', '.comparison-pair',
       '.register-section__titles', '.register-section__box-item',
       '.author-section__title', '.author-visual', '.author-section__sheip', '.author-section__box-item',

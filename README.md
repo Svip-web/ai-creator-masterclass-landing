@@ -27,4 +27,4 @@ npx --yes serve -l 8080 .
 - [Мобільний лендинг](https://svip-web.github.io/ai-creator-masterclass-landing/youtube/)
 - [HTML, CSS, JavaScript та ресурси](youtube/)
 
-Світла сторінка з анімаціями, локальною маскою телефону й формою попереднього перегляду.
+Світла мобільна сторінка з анімаціями, маскою телефону та підключеною формою CRM → SmartSender → Telegram. Налаштування аналітики й порядок перевірки описані в `youtube/README.md`.
