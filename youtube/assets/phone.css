@@ -1,13 +1,13 @@
 /* Local intl-tel-input v29 UI, shared with the Luna site. */
 :root{--iti-hover-color:#eef3ff;--iti-border-color:#dfe6f0;--iti-icon-color:#687385;--iti-mobile-popup-margin:18px}
-.modal__inner-form-content>.iti{width:100%;min-width:0;font-family:Inter,Arial,sans-serif;font-size:16px;line-height:1.5}
+.modal__inner-form-content>.iti{width:100%;min-width:0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5}
 .modal .iti__selected-country{padding-right:10px;border-radius:11px 0 0 11px;font-size:14px;gap:0}
 .modal .iti__selected-country-primary{padding-left:14px;padding-right:8px;border-radius:11px 0 0 11px}
 .modal .iti__selected-dial-code{margin-left:0;font-size:14px;font-weight:600;color:var(--ink)}
 .modal .iti__country-container::after{content:'';position:absolute;right:0;top:15px;bottom:15px;width:1px;background:var(--line);pointer-events:none}
-.iti--detached-country-selector{z-index:1100;font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.5;color:var(--ink)}
+.iti--detached-country-selector{z-index:1100;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:var(--ink)}
 .iti__country-selector{overflow:hidden;border:1px solid var(--iti-border-color);border-radius:14px;background:#fff;box-shadow:0 16px 50px #17243b26}
-.iti__search-input{min-height:50px;background:#fff;color:var(--ink);font:400 16px/1.5 Inter,Arial,sans-serif}
+.iti__search-input{min-height:50px;background:#fff;color:var(--ink);font:400 16px/1.5 "Helvetica Neue",Helvetica,Arial,sans-serif}
 .iti__search-input::placeholder{color:#96a2b5}
 .iti__country{min-height:46px;gap:0;font-size:14px;line-height:1.5}
 .iti__country-name{min-width:0;white-space:normal}

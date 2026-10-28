@@ -1,4 +1,4 @@
-:root{--display:Inter,Arial,sans-serif}
+:root{--display:"Helvetica Neue",Helvetica,Arial,sans-serif}
 .t-title,.intro-section__box-title,.intro-section__box-title-line,.box__item-title,.second-section .box__header-title,.second-section .item__inner-left-top,.author-section__box-item-title,.practice-section__box-inner-item-right-title,.practice-section__box-inner-item-right-sheip-text,.learn-section__box-item-label-text{font-family:var(--display);font-weight:700;font-synthesis:none}
 .t-title{font-size:25px;line-height:1.24;letter-spacing:-.35px}
 .register-section__titles-title,.practice-section__box-title,.result-section__box-title{font-size:24px;line-height:1.24;letter-spacing:-.3px}
