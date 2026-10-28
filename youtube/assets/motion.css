@@ -6,7 +6,7 @@
 .t-btn::before{content:'';position:absolute;z-index:0;top:-80%;bottom:-80%;left:-65%;width:50%;pointer-events:none;background:linear-gradient(105deg,transparent 24%,#ffffff08 38%,#ffffff45 50%,#ffffff08 62%,transparent 76%);opacity:0;transform:translateX(-140%) skewX(-18deg);animation:cta-sheen 3.8s ease-in-out infinite;animation-play-state:paused}
 .t-btn.is-motion-visible:not(:disabled)::before{animation-play-state:running}
 /* A seamless red gradient flows continuously, including without hover or JS. */
-.t-btn:not(:disabled)::after{content:'';position:absolute;z-index:-1;inset:0 auto 0 0;width:200%;pointer-events:none;background:linear-gradient(90deg,#a80035 0%,#d0002a 22%,#ed0019 50%,#d0002a 78%,#a80035 100%) repeat-x 0 50%/50% 100%;animation:cta-gradient-flow 3.2s linear infinite}
+.t-btn:not(:disabled)::after{content:'';position:absolute;z-index:-1;inset:0 auto 0 0;width:200%;pointer-events:none;background:linear-gradient(90deg,#bc0031 0%,#e20026 22%,#ed0019 50%,#e20026 78%,#bc0031 100%) repeat-x 0 50%/50% 100%;animation:cta-gradient-flow 3.2s linear infinite}
 .t-btn:not(:disabled)>.arrow{animation:cta-arrow-nudge 2.6s ease-in-out infinite;animation-play-state:paused}
 .t-btn.is-motion-visible:not(:disabled)>.arrow{animation-play-state:running}
 .t-btn:disabled{animation:none!important}
