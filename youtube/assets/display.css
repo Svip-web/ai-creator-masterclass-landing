@@ -5,10 +5,10 @@
 .intro-section__header{justify-content:center}
 .intro-section__box{text-align:center}
 .intro-section__box-subtitle{margin-inline:auto}
-.intro-section__box-title{margin-inline:-6px;font-size:clamp(24px,7.4vw,32px);font-size:clamp(24px,8.1cqw,32px);line-height:1.22;letter-spacing:-.8px;text-align:center}
-.intro-section__box-title-line{margin:0;font-size:inherit;line-height:inherit;letter-spacing:inherit}
+.intro-section__box-title{margin-inline:-6px;color:#101114;font-size:clamp(25px,8vw,34px);font-size:clamp(25px,8.65cqw,34px);font-weight:900;line-height:1.14;letter-spacing:-1.1px;text-align:center}
+.intro-section__box-title-line{margin:2px 0 0;font-size:inherit;font-weight:700;line-height:inherit;letter-spacing:inherit}
 .intro-section__box-title>.profession{font-size:inherit;letter-spacing:inherit}
-.intro-section__box-title>.hero-outcome{display:block;width:max-content;max-width:100%;margin:7px auto 0;padding:5px 12px 7px;border-radius:10px;background:var(--blue);color:#fff;font-size:inherit;line-height:inherit;letter-spacing:inherit;white-space:nowrap;box-shadow:0 5px 16px #0249ff24}
+.intro-section__box-title>.hero-outcome{display:block;width:max-content;max-width:100%;margin:8px auto 0;padding:6px 12px 8px;border-radius:10px;background:var(--blue);color:#fff;font-size:inherit;font-weight:700;line-height:inherit;letter-spacing:inherit;white-space:nowrap;box-shadow:0 8px 20px #0249ff30}
 .hero-outcome>span{color:inherit;font-size:inherit;white-space:nowrap;background:none}
 .box__item-title{font-size:14px;line-height:1.4;letter-spacing:-.3px}
 .second-section .box__header-title{font-size:20px;line-height:1.35;letter-spacing:-.25px}
