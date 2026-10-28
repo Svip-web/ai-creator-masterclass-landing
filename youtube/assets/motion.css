@@ -85,12 +85,36 @@
   57%{transform:translateY(-2px) rotate(-2deg)}
 }
 
+/* The travelling light and each check share one clock, adjusted to row heights. */
+.result-section__box-list.timeline-motion::before{top:var(--timeline-top);bottom:var(--timeline-bottom)}
+.result-section__box-list.timeline-motion::after{content:'';position:absolute;z-index:0;left:13px;top:var(--timeline-top);bottom:var(--timeline-bottom);width:3px;pointer-events:none;opacity:0;background:linear-gradient(180deg,transparent,#0249ff,transparent) 0 -70px/100% 70px no-repeat;animation:result-line-flow 7.2s linear 1s infinite;animation-play-state:paused}
+.timeline-motion .result-section__box-list-item .arrow{animation:result-check-pulse 7.2s ease-in-out infinite;animation-delay:calc(1s + var(--timeline-delay,0s));animation-play-state:paused}
+.timeline-motion .result-section__box-list-item .arrow path{stroke-dasharray:1;stroke-dashoffset:0;animation:result-check-draw 7.2s ease-out infinite;animation-delay:calc(1s + var(--timeline-delay,0s));animation-play-state:paused}
+.timeline-motion.is-motion-visible::after,.timeline-motion.is-motion-visible .arrow,.timeline-motion.is-motion-visible .arrow path{animation-play-state:running}
+@keyframes result-line-flow{
+  0%{background-position:0 -70px;opacity:0}
+  5%{background-position:0 -35px;opacity:.95}
+  80%{background-position:0 calc(100% + 35px);opacity:.95}
+  86%,100%{background-position:0 calc(100% + 70px);opacity:0}
+}
+@keyframes result-check-pulse{
+  0%,15%,100%{transform:scale(1);background:#fff;border-color:#d1ddf5;color:#0249ff;box-shadow:0 0 0 0 #0249ff00}
+  5%,8%{transform:scale(1.12);background:#0249ff;border-color:#0249ff;color:#fff;box-shadow:0 0 0 5px #0249ff14,0 0 16px #0249ff26}
+}
+@keyframes result-check-draw{
+  0%{stroke-dashoffset:1}
+  7%,100%{stroke-dashoffset:0}
+}
+
 @media(hover:hover) and (prefers-reduced-motion:no-preference){
   .register-section__box-item,.practice-section__box-inner-item,.author-section__box-item{transition:translate .22s ease,box-shadow .22s ease}
   .register-section__box-item:hover,.practice-section__box-inner-item:hover,.author-section__box-item:hover{translate:0 -2px;box-shadow:0 9px 22px #17243b0c}
 }
 
 @media(prefers-reduced-motion:reduce){
+  .result-section__box-list::after{display:none!important;animation:none!important}
+  .result-section__box-list .arrow{animation:none!important;transform:none!important;box-shadow:none!important}
+  .result-section__box-list .arrow path{animation:none!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}
   .register-section__box-item .icon{animation:none!important;transform:none!important}
   .t-btn,.t-btn::before,.t-btn::after,.t-btn>.arrow,.hero-visual .hero-person,.comparison-pair .learn-section__box-item:nth-child(2) .img,.comparison-pair .learn-section__box-item-label{animation:none!important;transition:none!important}
   .t-btn>.arrow{transform:none!important}

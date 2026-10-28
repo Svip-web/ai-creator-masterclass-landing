@@ -153,16 +153,37 @@
   const seen = new WeakSet();
   const visibleMotionTargets = new Set();
   const activeAnimations = new Set();
-  let revealObserver, motionObserver;
+  const resultTimeline = document.querySelector('.result-section__box-list');
+  let revealObserver, motionObserver, timelineResizeObserver;
 
   function syncMotionVisibility() {
     const allowed = !motionPreference.matches && !document.hidden && !document.body.classList.contains('modal-open');
     visibleMotionTargets.forEach(element => element.classList.toggle('is-motion-visible', allowed));
   }
 
+  function syncResultTimeline() {
+    if (!resultTimeline?.classList.contains('timeline-motion')) return;
+    const rows = [...resultTimeline.querySelectorAll('.result-section__box-list-item')];
+    const centers = rows.map(row => {
+      const icon = row.querySelector('.arrow');
+      const rowBox = row.getBoundingClientRect();
+      const iconBox = icon.getBoundingClientRect();
+      return row.offsetTop + iconBox.top - rowBox.top + iconBox.height / 2;
+    });
+    const first = centers[0], last = centers.at(-1);
+    if (!(last > first)) return;
+    resultTimeline.style.setProperty('--timeline-top', `${first}px`);
+    resultTimeline.style.setProperty('--timeline-bottom', `${resultTimeline.offsetHeight - last}px`);
+    rows.forEach((row, index) => {
+      row.style.setProperty('--timeline-delay', `${(centers[index] - first) / (last - first) * 5.4}s`);
+    });
+  }
+
   function stopMotion() {
     revealObserver?.disconnect();
     motionObserver?.disconnect();
+    timelineResizeObserver?.disconnect();
+    resultTimeline?.classList.remove('timeline-motion');
     activeAnimations.forEach(animation => animation.cancel());
     activeAnimations.clear();
     document.querySelectorAll('.is-motion-visible').forEach(element => element.classList.remove('is-motion-visible'));
@@ -172,6 +193,16 @@
   function startMotion() {
     stopMotion();
     if (motionPreference.matches || !('IntersectionObserver' in window) || typeof Element.prototype.animate !== 'function') return;
+
+    if (resultTimeline) {
+      resultTimeline.querySelectorAll('.arrow path').forEach(path => path.setAttribute('pathLength', '1'));
+      resultTimeline.classList.add('timeline-motion');
+      syncResultTimeline();
+      if ('ResizeObserver' in window) {
+        timelineResizeObserver = new ResizeObserver(syncResultTimeline);
+        timelineResizeObserver.observe(resultTimeline);
+      }
+    }
 
     const selectors = [
       '.intro-section__header', '.intro-section__box-title', '.intro-section__box-subtitle',
@@ -216,8 +247,10 @@
       });
       syncMotionVisibility();
     }, {threshold:.01});
-    document.querySelectorAll('.t-btn:not(:disabled), .hero-visual, .learn-section__box-item-label, .register-section__box-item .icon').forEach(element => motionObserver.observe(element));
+    document.querySelectorAll('.t-btn:not(:disabled), .hero-visual, .learn-section__box-item-label, .register-section__box-item .icon, .result-section__box-list').forEach(element => motionObserver.observe(element));
   }
+  if (!('ResizeObserver' in window)) addEventListener('resize', syncResultTimeline);
+  document.fonts?.ready.then(syncResultTimeline);
   motionPreference.addEventListener('change', startMotion);
   document.addEventListener('visibilitychange', syncMotionVisibility);
   startMotion();
