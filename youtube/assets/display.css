@@ -6,7 +6,7 @@
 .intro-section__header{justify-content:center}
 .intro-section__box{text-align:center}
 .intro-section__box-subtitle{margin-inline:auto}
-.intro-section__box-title{font-size:clamp(18px,5.8vw,24px);line-height:1.4;letter-spacing:-.6px;text-align:center}
+.intro-section__box-title{margin-inline:-6px;font-size:clamp(20px,calc(6.75vw - 2px),27px);line-height:1.3;letter-spacing:-.6px;text-align:center}
 .intro-section__box-title-line{margin:0;font-size:inherit;line-height:inherit;letter-spacing:inherit}
 .intro-section__box-title>.profession{font-size:inherit;letter-spacing:inherit}
 .intro-section__box-title>.hero-outcome{display:block;margin:0;padding:0;background:none;color:var(--ink);font-size:inherit;line-height:inherit;letter-spacing:inherit;white-space:nowrap}

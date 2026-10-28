@@ -1,6 +1,7 @@
 /* Refined version of the white / blue mobile page. */
 :root{--section-gray:#f3f4f6}
 main>section[class]{padding-block:48px}
+main>.intro-section[class]{padding-top:20px}
 main>section:nth-of-type(odd){background:#fff}
 main>section:nth-of-type(even){background:var(--section-gray);border-radius:30px;--muted:#5f6c7d}
 .second-section{padding:20px 0 22px}
