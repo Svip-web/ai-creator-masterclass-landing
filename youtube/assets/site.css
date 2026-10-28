@@ -19,7 +19,7 @@ section{position:relative}
 .t-title span{color:var(--blue)}
 .t-title br{display:none}
 .line-icon{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;color:var(--blue)}
-.t-btn{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:72px;padding:18px 12px 18px 20px;border-radius:16px;background:linear-gradient(110deg,#ed0019 0%,#ed0019 48%,#ed081e 100%);background-size:220% 100%;color:#fff;font:400 15px/1.2 Furore,Inter,Arial,sans-serif;letter-spacing:-.25px;text-transform:none;box-shadow:0 7px 20px #ed00192b;transition:filter .18s,transform .18s}
+.t-btn{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:72px;padding:18px 12px 18px 20px;border-radius:16px;background:linear-gradient(110deg,#ed0019 0%,#ed0019 48%,#ed081e 100%);background-size:220% 100%;color:#fff;font:700 15px/1.2 Inter,Arial,sans-serif;letter-spacing:-.25px;text-transform:none;box-shadow:0 7px 20px #ed00192b;transition:filter .18s,transform .18s}
 .t-btn>span{display:block;text-align:left}
 .t-btn>span::first-letter{text-transform:uppercase}
 .t-btn:hover{filter:brightness(1.045)}
