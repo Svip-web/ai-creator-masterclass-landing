@@ -84,7 +84,7 @@
     }
   }
 
-  async function submit(payload, {request = fetch, accepted = null} = {}) {
+  async function submit(payload, {request = fetch, accepted = null, onAccepted} = {}) {
     let merged;
     if (accepted !== null) {
       validate(accepted);
@@ -95,6 +95,9 @@
       const response = await post(CRM_URL, payload, request, 'crm', null);
       if (response.error || !(response.dealId || response.contactId)) throw failure('crm', null);
       merged = {...payload, ...response};
+      if (typeof onAccepted === 'function') {
+        try { Promise.resolve(onAccepted(merged)).catch(() => {}); } catch { /* Analytics must not interrupt registration. */ }
+      }
     }
     const store = await post(STORE_URL, {range:[],scope:{},variables:merged}, request, 'smartsender', merged);
     if (store.error || !store.id) throw failure('smartsender', merged);
