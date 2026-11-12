@@ -112,11 +112,10 @@ h3 { font-size: 1.08rem; }
   margin: -6px calc(-1 * var(--gutter)) 0 0;
 }
 
-.hero-visual::before {
-  content: "";
+.hero-portrait-shape {
   position: absolute;
-  z-index: -1;
   inset: 10% -13% 2% 28%;
+  overflow: hidden;
   border-radius: 52% 36% 12% 48%;
   background: #d7c7bd;
   transform: rotate(-14deg);
@@ -124,13 +123,10 @@ h3 { font-size: 1.08rem; }
 
 .hero-portrait {
   position: absolute;
-  z-index: 0;
-  inset: 0 0 0 auto;
-  width: 59%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 6%;
-  mask-image: linear-gradient(#000 84%, transparent);
+  inset: 50% auto auto 50%;
+  inline-size: 76%;
+  block-size: auto;
+  transform: translate(-50%, -50%) rotate(14deg) translateY(22%);
 }
 
 .hero-perks { position: relative; z-index: 1; display: grid; justify-items: start; gap: 7px; padding-block: 14px 28px; }
