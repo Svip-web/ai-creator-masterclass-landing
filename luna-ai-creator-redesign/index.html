@@ -8,7 +8,7 @@
   <meta property="og:title" content="AI Creator — бесплатный мини-курс">
   <link rel="icon" href="assets/95c69a335a58729a815afbff.png">
   <link rel="stylesheet" href="assets/3d23cc89e2c5386806f8cbb2.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
   <script src="site.js" defer></script>
   <script src="assets/intlTelInput.min.js" defer></script>
   <script src="assets/intlTelInput.utils.js" defer></script>
@@ -150,13 +150,6 @@
 
     <section class="portfolio section" aria-labelledby="portfolio-title">
       <h2 class="tagged-heading" id="portfolio-title" data-reveal>Цена <span class="pill pill-accent">контента</span></h2>
-      <div class="portfolio-navigation" data-photo-controls hidden>
-        <output class="portfolio-position" data-photo-position aria-label="Позиция в фотогалерее">1 / 4</output>
-        <div class="portfolio-buttons" aria-label="Навигация по фотогалерее">
-          <button type="button" data-photo-prev aria-controls="portfolio-photos" aria-label="Предыдущее фото">←</button>
-          <button type="button" data-photo-next aria-controls="portfolio-photos" aria-label="Следующее фото">→</button>
-        </div>
-      </div>
       <div class="portfolio-track" id="portfolio-photos" role="region" tabindex="0" aria-label="Примеры фото" data-reveal>
         <figure class="example">
           <img src="media/example-interior.webp" alt="Интерьер в тёплых тонах" loading="lazy" width="560" height="680" draggable="false">
@@ -175,11 +168,11 @@
           <figcaption><span>AI Фотосессия</span><strong>+150$</strong></figcaption>
         </figure>
       </div>
-      <div class="portfolio-navigation portfolio-video-navigation" data-video-controls hidden>
-        <output class="portfolio-position" data-video-position aria-label="Позиция в видеогалерее">1 / 5</output>
-        <div class="portfolio-buttons" aria-label="Навигация по видеогалерее">
-          <button type="button" data-video-prev aria-controls="portfolio-videos" aria-label="Предыдущее видео">←</button>
-          <button type="button" data-video-next aria-controls="portfolio-videos" aria-label="Следующее видео">→</button>
+      <div class="carousel-navigation" data-photo-controls hidden>
+        <output class="carousel-position" data-photo-position aria-label="Позиция в фотогалерее">1 / 4</output>
+        <div class="portfolio-buttons" aria-label="Навигация по фотогалерее">
+          <button type="button" data-photo-prev aria-controls="portfolio-photos" aria-label="Предыдущее фото">←</button>
+          <button type="button" data-photo-next aria-controls="portfolio-photos" aria-label="Следующее фото">→</button>
         </div>
       </div>
       <figure class="example example-video" data-reveal>
@@ -207,17 +200,18 @@
         </div>
         <figcaption><span>AI Видеовизуализация</span><strong>+50$</strong></figcaption>
       </figure>
+      <div class="carousel-navigation" data-video-controls hidden>
+        <output class="carousel-position" data-video-position aria-label="Позиция в видеогалерее">1 / 5</output>
+        <div class="portfolio-buttons" aria-label="Навигация по видеогалерее">
+          <button type="button" data-video-prev aria-controls="portfolio-videos" aria-label="Предыдущее видео">←</button>
+          <button type="button" data-video-next aria-controls="portfolio-videos" aria-label="Следующее видео">→</button>
+        </div>
+      </div>
     </section>
 
     <section class="reviews section" aria-labelledby="reviews-title">
-      <div class="reviews-header" data-reveal>
-        <h2 id="reviews-title">Отзывы</h2>
-        <div class="review-buttons" aria-label="Навигация по отзывам">
-          <button type="button" data-review-prev aria-label="Предыдущий отзыв">←</button>
-          <button type="button" data-review-next aria-label="Следующий отзыв">→</button>
-        </div>
-      </div>
-      <div class="review-track" data-reviews tabindex="0" aria-label="Отзывы участниц">
+      <h2 id="reviews-title" data-reveal>Отзывы</h2>
+      <div class="review-track" id="review-carousel" data-reviews tabindex="0" aria-label="Отзывы участниц">
         <article data-review-card><img src="assets/3eaf6302bde164af0ab14a9e.avif" alt="Отзыв 1, часть 1" loading="lazy"><img src="assets/f3bd9fb870d100e66a278283.avif" alt="Отзыв 1, часть 2" loading="lazy"></article>
         <article data-review-card><img src="assets/35597140e70bd88e355514f9.avif" alt="Отзыв 2" loading="lazy"></article>
         <article data-review-card><img src="assets/512202d50a47f3b03a6ee6bb.avif" alt="Отзыв 3" loading="lazy"></article>
@@ -231,7 +225,13 @@
         <article data-review-card><img src="assets/1e56d307679b5b0e8e146271.avif" alt="Отзыв 11" loading="lazy"></article>
         <article data-review-card><img src="assets/review-12.webp" alt="Отзыв Кристины о первом заказе на AI-видео для бренда косметики" width="1440" height="920" loading="lazy"></article>
       </div>
-      <output class="review-position" data-review-position>1 / 12</output>
+      <div class="carousel-navigation">
+        <output class="carousel-position" data-review-position aria-label="Позиция в отзывах">1 / 12</output>
+        <div class="review-buttons" aria-label="Навигация по отзывам">
+          <button type="button" data-review-prev aria-controls="review-carousel" aria-label="Предыдущий отзыв">←</button>
+          <button type="button" data-review-next aria-controls="review-carousel" aria-label="Следующий отзыв">→</button>
+        </div>
+      </div>
     </section>
 
     <section class="closing section" aria-labelledby="closing-title" data-reveal>

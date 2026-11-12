@@ -299,8 +299,8 @@ h3 { font-size: 1.08rem; }
 .speaker-cta { margin-top: 23px; }
 
 .portfolio { padding-top: 14px; }
-.portfolio-navigation { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
-.portfolio-position { color: #604a42; font-size: .85rem; font-variant-numeric: tabular-nums; }
+.carousel-navigation { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
+.carousel-position { color: #604a42; font-size: .85rem; font-variant-numeric: tabular-nums; }
 .portfolio-buttons { display: flex; gap: 7px; }
 .portfolio-buttons button { inline-size: 44px; block-size: 44px; padding: 0; border: 1px solid var(--coral-ink); border-radius: 50%; background: #f8f3ef; color: var(--coral-ink); font: 700 1.1rem/1 Arial, sans-serif; }
 .portfolio-buttons button:disabled { opacity: .5; cursor: default; }
@@ -310,8 +310,7 @@ h3 { font-size: 1.08rem; }
 .portfolio-track .example:last-child { scroll-snap-align: end; }
 .example { min-inline-size: 0; overflow: hidden; border-radius: 14px; background: #e6ddd8; }
 .example img, .example video { inline-size: 100%; aspect-ratio: 4 / 4.15; object-fit: cover; background: #241c19; }
-.portfolio-video-navigation { margin-top: 16px; }
-.example-video { margin-top: 10px; }
+.example-video { margin-top: 16px; }
 .portfolio-video-track { align-items: start; gap: 0; margin-top: 0; overflow-y: hidden; }
 .portfolio-video-track .video-frame { flex: 0 0 100%; min-inline-size: 0; scroll-snap-align: start; }
 .example video { aspect-ratio: 4 / 3; object-position: center; }
@@ -337,7 +336,7 @@ h3 { font-size: 1.08rem; }
 }
 
 .reviews { overflow: hidden; background: var(--paper-deep); }
-.reviews-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 13px; }
+.reviews h2 { margin-bottom: 13px; }
 .review-buttons { display: flex; gap: 7px; }
 .review-buttons button { width: 40px; height: 40px; padding: 0; border: 1px solid var(--coral-ink); border-radius: 50%; background: transparent; color: var(--coral-ink); font: 700 1.1rem/1 Arial, sans-serif; transition: background-color .2s ease, color .2s ease, transform .2s ease; }
 .review-buttons button:active:not(:disabled) { transform: scale(.92); }
@@ -366,7 +365,6 @@ h3 { font-size: 1.08rem; }
   scroll-snap-align: start;
 }
 .review-track img { inline-size: 100%; border-radius: 6px; }
-.review-position { display: block; margin-top: 9px; color: #604a42; font-size: .85rem; }
 
 .closing { background: radial-gradient(ellipse at 0 64%, #e8dad1 0%, transparent 63%); }
 .closing h2 { text-wrap: wrap; }
