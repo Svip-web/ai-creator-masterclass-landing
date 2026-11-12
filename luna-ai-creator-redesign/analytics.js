@@ -1,5 +1,9 @@
 (() => {
-  if (!/^(www\.)?luna13\.academy$/i.test(location.hostname)) return;
+  const { hostname, protocol } = location;
+  const isPreview = /(^|\.)(localhost|chatgpt\.site)$/i.test(hostname)
+    || /^127(?:\.\d{1,3}){3}$/.test(hostname)
+    || hostname === '[::1]';
+  if (isPreview || (protocol !== 'https:' && protocol !== 'http:')) return;
 
   function loadScript(url) {
     const script = document.createElement('script');
