@@ -84,7 +84,7 @@
     if (play) {
       play.hidden = false;
       play.addEventListener('click', () => {
-        video.play().catch(() => { play.hidden = true; });
+        video.play().catch(() => { play.hidden = !video.paused; });
       });
       video.addEventListener('pause', () => { play.hidden = false; });
       video.addEventListener('ended', () => { play.hidden = false; });
