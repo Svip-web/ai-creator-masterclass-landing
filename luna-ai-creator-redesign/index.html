@@ -175,10 +175,35 @@
           <figcaption><span>AI Фотосессия</span><strong>+150$</strong></figcaption>
         </figure>
       </div>
+      <div class="portfolio-navigation portfolio-video-navigation" data-video-controls hidden>
+        <output class="portfolio-position" data-video-position aria-label="Позиция в видеогалерее">1 / 5</output>
+        <div class="portfolio-buttons" aria-label="Навигация по видеогалерее">
+          <button type="button" data-video-prev aria-controls="portfolio-videos" aria-label="Предыдущее видео">←</button>
+          <button type="button" data-video-next aria-controls="portfolio-videos" aria-label="Следующее видео">→</button>
+        </div>
+      </div>
       <figure class="example example-video" data-reveal>
-        <div class="video-frame">
-          <video controls playsinline preload="none" poster="media/showcase-poster.webp" aria-label="Пример AI-видеовизуализации"><source src="media/showcase.mp4" type="video/mp4"></video>
-          <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видео" hidden></button>
+        <div class="portfolio-track portfolio-video-track" id="portfolio-videos" role="region" tabindex="0" aria-label="Примеры видео">
+          <div class="video-frame">
+            <video controls playsinline preload="none" poster="media/showcase-poster.webp" aria-label="Реклама парфюма"><source src="media/showcase.mp4" type="video/mp4"></video>
+            <button class="video-play" type="button" data-video-play aria-label="Воспроизвести рекламу парфюма" hidden></button>
+          </div>
+          <div class="video-frame video-frame--portrait">
+            <video controls playsinline preload="none" poster="media/portfolio-video-01-poster.jpg" aria-label="Терракотовый образ на закате"><source src="media/portfolio-video-01.mp4" type="video/mp4"></video>
+            <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видео «Терракотовый образ на закате»" hidden></button>
+          </div>
+          <div class="video-frame video-frame--portrait">
+            <video controls playsinline preload="none" poster="media/portfolio-video-02-poster.jpg" aria-label="Розовое платье и сумка"><source src="media/portfolio-video-02.mp4" type="video/mp4"></video>
+            <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видео «Розовое платье и сумка»" hidden></button>
+          </div>
+          <div class="video-frame video-frame--portrait">
+            <video controls playsinline preload="none" poster="media/portfolio-video-03-poster.jpg" aria-label="Мужские образы с кроссовками"><source src="media/portfolio-video-03.mp4" type="video/mp4"></video>
+            <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видео «Мужские образы с кроссовками»" hidden></button>
+          </div>
+          <div class="video-frame video-frame--portrait">
+            <video controls playsinline preload="none" poster="media/portfolio-video-04-poster.jpg" aria-label="Вечерние платья у воды"><source src="media/portfolio-video-04.mp4" type="video/mp4"></video>
+            <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видео «Вечерние платья у воды»" hidden></button>
+          </div>
         </div>
         <figcaption><span>AI Видеовизуализация</span><strong>+50$</strong></figcaption>
       </figure>

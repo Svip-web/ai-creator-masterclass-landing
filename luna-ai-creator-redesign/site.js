@@ -51,18 +51,25 @@
     });
   }
 
-  const play = document.querySelector('[data-video-play]');
-  const video = document.querySelector('.video-frame video');
-  if (play && video) {
+  const videos = [...document.querySelectorAll('#portfolio-videos video')];
+  videos.forEach((video) => {
+    const play = video.closest('.video-frame').querySelector('[data-video-play]');
+    if (!play) return;
     play.hidden = false;
     play.addEventListener('click', () => {
       video.play().catch(() => { play.hidden = true; });
     });
-    video.addEventListener('play', () => { play.hidden = true; });
+    video.addEventListener('play', () => {
+      play.hidden = true;
+      videos.forEach((other) => {
+        if (other !== video && !other.paused) other.pause();
+      });
+    });
+    video.addEventListener('pause', () => { play.hidden = false; });
     video.addEventListener('ended', () => { play.hidden = false; });
-  }
+  });
 
-  function setupCarousel(track, itemSelector, previous, next, position, { fitActiveCard = false } = {}) {
+  function setupCarousel(track, itemSelector, previous, next, position, { fitActiveCard = false, onActiveChange } = {}) {
     const cards = [...(track?.querySelectorAll(itemSelector) ?? [])];
     if (!cards.length || !previous || !next) return false;
 
@@ -92,15 +99,18 @@
         const label = `${current + 1} / ${stops.length}`;
         if (position.textContent !== label) position.textContent = label;
       }
-      if (fitActiveCard) {
-        const card = cards[current];
-        if (card !== activeCard) {
+      const card = cards[current];
+      if (card !== activeCard) {
+        if (fitActiveCard) {
           if (activeCard) observer?.unobserve(activeCard);
-          activeCard = card;
           observer?.observe(card);
           // Screenshots further down the active card can start outside the clipped track.
           card.querySelectorAll('img[loading="lazy"]').forEach((image) => { image.loading = 'eager'; });
         }
+        activeCard = card;
+        onActiveChange?.(card);
+      }
+      if (fitActiveCard) {
         const scrollbarHeight = track.offsetHeight - track.clientHeight;
         const height = `${Math.ceil(card.getBoundingClientRect().height) + scrollbarHeight}px`;
         if (track.style.blockSize !== height) track.style.blockSize = height;
@@ -150,6 +160,25 @@
       photoControls.querySelector('[data-photo-prev]'),
       photoControls.querySelector('[data-photo-next]'),
       photoControls.querySelector('[data-photo-position]')
+    );
+  }
+
+  const videoControls = document.querySelector('[data-video-controls]');
+  if (videoControls) {
+    videoControls.hidden = !setupCarousel(
+      document.getElementById('portfolio-videos'),
+      '.video-frame',
+      videoControls.querySelector('[data-video-prev]'),
+      videoControls.querySelector('[data-video-next]'),
+      videoControls.querySelector('[data-video-position]'),
+      {
+        fitActiveCard: true,
+        onActiveChange: (card) => {
+          videos.forEach((video) => {
+            if (!card.contains(video) && !video.paused) video.pause();
+          });
+        }
+      }
     );
   }
 

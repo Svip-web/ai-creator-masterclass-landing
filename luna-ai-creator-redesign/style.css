@@ -136,15 +136,32 @@ h3 { font-size: 1.08rem; }
 .hero-perks svg { flex: none; inline-size: 13px; block-size: 13px; color: var(--coral-ink); }
 .hero-arrow { position: absolute; z-index: 1; inset: auto auto 2px 12%; color: var(--coral-ink); font: 400 clamp(3.3rem, 14vw, 5.7rem)/1 Georgia, serif; transform: rotate(-14deg); }
 
-.registration { position: relative; z-index: 3; scroll-margin-top: 16px; padding-top: 6px; }
-.registration form { display: grid; gap: 9px; }
+.registration { --registration-control-height: 62px; position: relative; z-index: 3; scroll-margin-top: 16px; padding-top: 6px; }
+.registration form { display: grid; gap: 11px; }
 .registration-note { font-size: .95rem; line-height: 1.28; max-inline-size: 25em; margin-bottom: 3px; }
 .registration-note strong { color: var(--coral-ink); }
-.phone-input { display: block; min-inline-size: 0; inline-size: 100%; padding: 11px 17px; border: 1px solid #c18374; border-radius: 50px; color: var(--ink); background: #ffffff3a; }
+.registration form input[type="submit"] { min-block-size: var(--registration-control-height); }
+.phone-input {
+  display: block;
+  min-inline-size: 0;
+  inline-size: 100%;
+  min-block-size: var(--registration-control-height);
+  padding-block: 12px;
+  padding-inline: 17px;
+  border: 2px solid #b75847;
+  border-radius: 50px;
+  color: var(--ink);
+  background: #fffaf7;
+  box-shadow: 0 2px 4px #702c2012;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.phone-input:focus { border-color: var(--coral-ink); outline-offset: 2px; box-shadow: 0 0 0 3px #b8312029; }
 .phone-input::placeholder { color: #685952; opacity: 1; }
 .registration .iti { inline-size: 100%; }
 .iti--container .iti__country-list { max-inline-size: min(440px, calc(100vw - 48px)); }
-.registration .iti__selected-flag { border-radius: 50px 0 0 50px; }
+.registration .iti__flag-container { padding: 2px; }
+.registration .iti--separate-dial-code .iti__selected-flag { border-radius: 50px 0 0 50px; background: #f8e9e2; }
+.registration .iti__selected-dial-code { color: #4a332d; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .form-message { margin-top: .7rem; font-size: .9rem; }
 .form-message:empty { margin: 0; }
 .w-form-fail { color: var(--coral-ink); }
@@ -293,8 +310,12 @@ h3 { font-size: 1.08rem; }
 .portfolio-track .example:last-child { scroll-snap-align: end; }
 .example { min-inline-size: 0; overflow: hidden; border-radius: 14px; background: #e6ddd8; }
 .example img, .example video { inline-size: 100%; aspect-ratio: 4 / 4.15; object-fit: cover; background: #241c19; }
-.example-video { margin-top: 16px; }
+.portfolio-video-navigation { margin-top: 16px; }
+.example-video { margin-top: 10px; }
+.portfolio-video-track { align-items: start; gap: 0; margin-top: 0; overflow-y: hidden; }
+.portfolio-video-track .video-frame { flex: 0 0 100%; min-inline-size: 0; scroll-snap-align: start; }
 .example video { aspect-ratio: 4 / 3; object-position: center; }
+.video-frame--portrait video { aspect-ratio: 9 / 16; max-block-size: min(65svh, 620px); object-fit: contain; }
 .video-frame { position: relative; }
 .video-play { position: absolute; top: 50%; left: 50%; display: grid; width: 60px; aspect-ratio: 1; place-items: center; padding: 0; border: 1px solid #fff8; border-radius: 50%; color: #fff; background: #161618d9; transform: translate(-50%, -50%); transition: background-color .22s ease, box-shadow .24s ease, scale .24s ease; }
 .video-play::before { content: ""; margin-left: 4px; border: 9px solid transparent; border-left: 15px solid currentColor; border-right: 0; }
@@ -428,6 +449,9 @@ h3 { font-size: 1.08rem; }
     animation: cta-shimmer 1.9s ease-in-out infinite alternate, cta-pulse 1.9s ease-in-out infinite;
   }
   .cta:focus-visible { animation-play-state: paused; }
+  .example figcaption strong { animation: portfolio-price-pulse 2.3s ease-in-out infinite; }
+  .portfolio-track .example:nth-child(even) figcaption strong { animation-delay: .3s; }
+  .example-video figcaption strong { animation-delay: .55s; }
 }
 
 @keyframes hero-enter {
@@ -468,6 +492,12 @@ h3 { font-size: 1.08rem; }
 
 @keyframes cta-pulse {
   50% { scale: 1.025; }
+}
+
+@keyframes portfolio-price-pulse {
+  0%, 100% { scale: 1; box-shadow: 0 0 0 0 #c23f2c00; }
+  46% { scale: 1.045; box-shadow: 0 0 0 3px #c23f2c26; }
+  72% { scale: 1; box-shadow: 0 0 0 5px #c23f2c00; }
 }
 
 @media (min-width: 560px) {
