@@ -8,8 +8,8 @@
   <meta property="og:title" content="AI Creator — бесплатный мини-курс">
   <link rel="icon" href="assets/95c69a335a58729a815afbff.png">
   <link rel="stylesheet" href="assets/3d23cc89e2c5386806f8cbb2.css">
-  <link rel="stylesheet" href="style.css?v=2">
-  <script src="site.js" defer></script>
+  <link rel="stylesheet" href="style.css?v=3">
+  <script src="site.js?v=3" defer></script>
   <script src="assets/intlTelInput.min.js" defer></script>
   <script src="assets/intlTelInput.utils.js" defer></script>
   <script src="registration.js" defer></script>
@@ -149,7 +149,10 @@
     </section>
 
     <section class="portfolio section" aria-labelledby="portfolio-title">
-      <h2 class="tagged-heading" id="portfolio-title" data-reveal>Цена <span class="pill pill-accent">контента</span></h2>
+      <header class="portfolio-heading" data-reveal>
+        <h2 id="portfolio-title">Сколько бренды платят <span class="title-accent">за AI-фото и видео</span></h2>
+        <p>Примеры работ и ориентиры по цене.</p>
+      </header>
       <div class="portfolio-track" id="portfolio-photos" role="region" tabindex="0" aria-label="Примеры фото" data-reveal>
         <figure class="example">
           <img src="media/example-interior.webp" alt="Интерьер в тёплых тонах" loading="lazy" width="560" height="680" draggable="false">
@@ -167,9 +170,25 @@
           <img src="media/example-editorial.webp" alt="Пример AI-фотосессии" loading="lazy" width="540" height="656" draggable="false">
           <figcaption><span>AI Фотосессия</span><strong>+150$</strong></figcaption>
         </figure>
+        <figure class="example">
+          <img src="media/example-flowers.webp" alt="Букет в синей вазе на персиковом фоне" loading="lazy" width="680" height="1020" draggable="false">
+          <figcaption><span>AI Визуализация</span><strong>+70$</strong></figcaption>
+        </figure>
+        <figure class="example">
+          <img src="media/example-skincare.webp" alt="Предметное фото сыворотки с алоэ" loading="lazy" width="680" height="1020" draggable="false">
+          <figcaption><span>AI Товарная фотосессия</span><strong>+125$</strong></figcaption>
+        </figure>
+        <figure class="example">
+          <img src="media/example-speaker.webp" alt="Трёхмерная визуализация прозрачной акустической колонки" loading="lazy" width="680" height="1020" draggable="false">
+          <figcaption><span>3D AI Визуализация</span><strong>+90$</strong></figcaption>
+        </figure>
+        <figure class="example">
+          <img src="media/example-activewear.webp" alt="AI-фотосессия спортивной одежды на стадионе" loading="lazy" width="680" height="1020" draggable="false">
+          <figcaption><span>AI Фотосессия</span><strong>+150$</strong></figcaption>
+        </figure>
       </div>
       <div class="carousel-navigation" data-photo-controls hidden>
-        <output class="carousel-position" data-photo-position aria-label="Позиция в фотогалерее">1 / 4</output>
+        <output class="carousel-position" data-photo-position aria-label="Позиция в фотогалерее">1 / 8</output>
         <div class="portfolio-buttons" aria-label="Навигация по фотогалерее">
           <button type="button" data-photo-prev aria-controls="portfolio-photos" aria-label="Предыдущее фото">←</button>
           <button type="button" data-photo-next aria-controls="portfolio-photos" aria-label="Следующее фото">→</button>
@@ -198,7 +217,7 @@
             <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видео «Вечерние платья у воды»" hidden></button>
           </div>
         </div>
-        <figcaption><span>AI Видеовизуализация</span><strong>+50$</strong></figcaption>
+        <figcaption><span>AI Видеовизуализация</span><strong>+200$</strong></figcaption>
       </figure>
       <div class="carousel-navigation" data-video-controls hidden>
         <output class="carousel-position" data-video-position aria-label="Позиция в видеогалерее">1 / 5</output>
@@ -276,5 +295,8 @@
       </div>
     </div>
   </footer>
+  <div class="fixed-registration" data-fixed-registration hidden>
+    <button class="cta" type="button" data-open-registration aria-controls="registration">занять место</button>
+  </div>
 </body>
 </html>

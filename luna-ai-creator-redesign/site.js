@@ -51,6 +51,33 @@
     });
   }
 
+  const fixedRegistration = document.querySelector('[data-fixed-registration]');
+  if (fixedRegistration && registration && phone && typeof IntersectionObserver === 'function') {
+    const inlineButtons = [...document.querySelectorAll('.landing .cta')];
+    const registrationAreas = document.querySelectorAll('.registration');
+    const visibleElements = new Set();
+
+    function updateFixedRegistration() {
+      const focusedArea = document.activeElement?.closest('.registration');
+      fixedRegistration.hidden = inlineButtons.some((button) => visibleElements.has(button))
+        || visibleElements.has(focusedArea);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) visibleElements.add(entry.target);
+        else visibleElements.delete(entry.target);
+      }
+      updateFixedRegistration();
+    });
+
+    inlineButtons.forEach((button) => observer.observe(button));
+    registrationAreas.forEach((area) => observer.observe(area));
+    document.addEventListener('focusin', updateFixedRegistration);
+    document.addEventListener('focusout', () => requestAnimationFrame(updateFixedRegistration));
+    document.body.classList.add('fixed-registration-enabled');
+  }
+
   const videos = [...document.querySelectorAll('#portfolio-videos video')];
   videos.forEach((video) => {
     const play = video.closest('.video-frame').querySelector('[data-video-play]');
