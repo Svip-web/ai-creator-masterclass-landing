@@ -129,7 +129,7 @@ h3 { font-size: 1.08rem; }
   width: 59%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 0%;
+  object-position: center 6%;
   mask-image: linear-gradient(#000 84%, transparent);
 }
 
@@ -416,6 +416,10 @@ h3 { font-size: 1.08rem; }
 
 .reviews { overflow: hidden; background: var(--paper-deep); }
 .reviews h2 { margin-bottom: 13px; }
+.video-testimonials { margin-block-end: 23px; padding-block-end: 17px; border-block-end: 1px solid var(--rule); }
+.video-testimonials h3 { margin-block-end: 9px; color: var(--coral-ink); }
+.testimonial-video-track { border-radius: 14px; background: var(--ink); }
+.testimonial-video-track video { inline-size: 100%; block-size: auto; }
 .review-buttons { display: flex; gap: 7px; }
 .review-buttons button { width: 40px; height: 40px; padding: 0; border: 1px solid var(--coral-ink); border-radius: 50%; background: transparent; color: var(--coral-ink); font: 700 1.1rem/1 Arial, sans-serif; transition: background-color .2s ease, color .2s ease, transform .2s ease; }
 .review-buttons button:active:not(:disabled) { transform: scale(.92); }

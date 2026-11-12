@@ -8,8 +8,8 @@
   <meta property="og:title" content="AI Creator — бесплатный мини-курс">
   <link rel="icon" href="assets/95c69a335a58729a815afbff.png">
   <link rel="stylesheet" href="assets/3d23cc89e2c5386806f8cbb2.css">
-  <link rel="stylesheet" href="style.css?v=3">
-  <script src="site.js?v=3" defer></script>
+  <link rel="stylesheet" href="style.css?v=4">
+  <script src="site.js?v=4" defer></script>
   <script src="assets/intlTelInput.min.js" defer></script>
   <script src="assets/intlTelInput.utils.js" defer></script>
   <script src="registration.js" defer></script>
@@ -34,7 +34,7 @@
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/hero-icons.svg#sun"></use></svg>в любом возрасте</li>
         </ul>
         <span class="hero-arrow" aria-hidden="true">⤷</span>
-        <img class="hero-portrait" src="media/hero-portrait.webp" alt="Женя Коваленко" fetchpriority="high" width="720" height="1600">
+        <img class="hero-portrait" src="media/hero-portrait.webp?v=2" alt="Женя Коваленко" fetchpriority="high" width="820" height="1468">
       </div>
       <div class="registration" id="registration">
         <div class="form w-form">
@@ -230,6 +230,42 @@
 
     <section class="reviews section" aria-labelledby="reviews-title">
       <h2 id="reviews-title" data-reveal>Отзывы</h2>
+      <div class="video-testimonials" data-reveal>
+        <h3 id="video-testimonials-title">Видеоотзывы</h3>
+        <div class="portfolio-track portfolio-video-track testimonial-video-track" id="testimonial-videos" role="region" tabindex="0" aria-labelledby="video-testimonials-title">
+          <div class="video-frame video-frame--portrait">
+            <video controls playsinline preload="none" width="608" height="1080" poster="media/testimonial-karina-poster.webp" aria-label="Видеоотзыв Карины из Испании">
+              <source src="media/testimonial-karina.mp4" type="video/mp4">
+            </video>
+            <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видеоотзыв Карины" hidden></button>
+          </div>
+          <div class="video-frame video-frame--portrait">
+            <video controls playsinline preload="none" width="608" height="1080" poster="media/testimonial-svetlana-poster.webp" aria-label="Видеоотзыв Светланы из Чехии">
+              <source src="media/testimonial-svetlana.mp4" type="video/mp4">
+            </video>
+            <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видеоотзыв Светланы" hidden></button>
+          </div>
+          <div class="video-frame video-frame--portrait">
+            <video controls playsinline preload="none" width="608" height="1080" poster="media/testimonial-olga-poster.webp" aria-label="Видеоотзыв Ольги из Майнца">
+              <source src="media/testimonial-olga.mp4" type="video/mp4">
+            </video>
+            <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видеоотзыв Ольги" hidden></button>
+          </div>
+          <div class="video-frame video-frame--portrait">
+            <video controls playsinline preload="none" width="608" height="1080" poster="media/testimonial-natalia-poster.webp" aria-label="Видеоотзыв Натальи">
+              <source src="media/testimonial-natalia.mp4" type="video/mp4">
+            </video>
+            <button class="video-play" type="button" data-video-play aria-label="Воспроизвести видеоотзыв Натальи" hidden></button>
+          </div>
+        </div>
+        <div class="carousel-navigation" data-video-controls hidden>
+          <output class="carousel-position" data-video-position aria-label="Позиция в видеоотзывах">1 / 4</output>
+          <div class="review-buttons" aria-label="Навигация по видеоотзывам">
+            <button type="button" data-video-prev aria-controls="testimonial-videos" aria-label="Предыдущий видеоотзыв">←</button>
+            <button type="button" data-video-next aria-controls="testimonial-videos" aria-label="Следующий видеоотзыв">→</button>
+          </div>
+        </div>
+      </div>
       <div class="review-track" id="review-carousel" data-reviews tabindex="0" aria-label="Отзывы участниц">
         <article data-review-card><img src="assets/3eaf6302bde164af0ab14a9e.avif" alt="Отзыв 1, часть 1" loading="lazy"><img src="assets/f3bd9fb870d100e66a278283.avif" alt="Отзыв 1, часть 2" loading="lazy"></article>
         <article data-review-card><img src="assets/35597140e70bd88e355514f9.avif" alt="Отзыв 2" loading="lazy"></article>

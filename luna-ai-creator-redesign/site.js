@@ -78,22 +78,23 @@
     document.body.classList.add('fixed-registration-enabled');
   }
 
-  const videos = [...document.querySelectorAll('#portfolio-videos video')];
+  const videos = [...document.querySelectorAll('#portfolio-videos video, #testimonial-videos video')];
   videos.forEach((video) => {
-    const play = video.closest('.video-frame').querySelector('[data-video-play]');
-    if (!play) return;
-    play.hidden = false;
-    play.addEventListener('click', () => {
-      video.play().catch(() => { play.hidden = true; });
-    });
+    const play = video.closest('.video-frame')?.querySelector('[data-video-play]');
+    if (play) {
+      play.hidden = false;
+      play.addEventListener('click', () => {
+        video.play().catch(() => { play.hidden = true; });
+      });
+      video.addEventListener('pause', () => { play.hidden = false; });
+      video.addEventListener('ended', () => { play.hidden = false; });
+    }
     video.addEventListener('play', () => {
-      play.hidden = true;
+      if (play) play.hidden = true;
       videos.forEach((other) => {
         if (other !== video && !other.paused) other.pause();
       });
     });
-    video.addEventListener('pause', () => { play.hidden = false; });
-    video.addEventListener('ended', () => { play.hidden = false; });
   });
 
   function setupCarousel(track, itemSelector, previous, next, position, { fitActiveCard = false, onActiveChange } = {}) {
@@ -190,24 +191,26 @@
     );
   }
 
-  const videoControls = document.querySelector('[data-video-controls]');
-  if (videoControls) {
-    videoControls.hidden = !setupCarousel(
-      document.getElementById('portfolio-videos'),
+  document.querySelectorAll('[data-video-controls]').forEach((controls) => {
+    const previous = controls.querySelector('[data-video-prev]');
+    const track = document.getElementById(previous?.getAttribute('aria-controls') ?? '');
+    const trackVideos = [...(track?.querySelectorAll('video') ?? [])];
+    controls.hidden = !setupCarousel(
+      track,
       '.video-frame',
-      videoControls.querySelector('[data-video-prev]'),
-      videoControls.querySelector('[data-video-next]'),
-      videoControls.querySelector('[data-video-position]'),
+      previous,
+      controls.querySelector('[data-video-next]'),
+      controls.querySelector('[data-video-position]'),
       {
         fitActiveCard: true,
         onActiveChange: (card) => {
-          videos.forEach((video) => {
+          trackVideos.forEach((video) => {
             if (!card.contains(video) && !video.paused) video.pause();
           });
         }
       }
     );
-  }
+  });
 
   const timer = ['hours', 'minutes', 'seconds'].map((id) => document.getElementById(id));
   if (timer.every(Boolean)) {
